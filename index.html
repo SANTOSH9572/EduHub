@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHub | Educational Resource Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        :root {
+            /* Light theme variables */
+            --light-bg: #f8f9fa;
+            --light-card-bg: #ffffff;
+            --light-text: #333333;
+            --light-text-secondary: #666666;
+            --light-accent: #6c5ce7;
+            --light-primary: #4a3fcf;
+            --light-border: #e0e0e0;
+            --light-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --light-hover: #f0f2f5;
+            
+            /* Dark theme variables */
+            --dark-bg: #121212;
+            --dark-card-bg: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+            --dark-accent: #8a2be2;
+            --dark-primary: #00ccff;
+            --dark-border: #333333;
+            --dark-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --dark-hover: #2a2a2a;
+            
+            /* Initial theme setup */
+            --bg: var(--light-bg);
+            --card-bg: var(--light-card-bg);
+            --text: var(--light-text);
+            --text-secondary: var(--light-text-secondary);
+            --accent: var(--light-accent);
+            --primary: var(--light-primary);
+            --border: var(--light-border);
+            --shadow: var(--light-shadow);
+            --hover: var(--light-hover);
+        }
+
+        body.dark-mode {
+            --bg: var(--dark-bg);
+            --card-bg: var(--dark-card-bg);
+            --text: var(--dark-text);
+            --text-secondary: var(--dark-text-secondary);
+            --accent: var(--dark-accent);
+            --primary: var(--dark-primary);
+            --border: var(--dark-border);
+            --shadow: var(--dark-shadow);
+            --hover: var(--dark-hover);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--card-bg);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 6px 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover);
+            transform: translateY(-2px);
+        }
+
+        .theme-icon {
+            font-size: 1rem;
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Image Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
+
+        .carousel-caption h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .carousel-caption p {
+            font-size: 0.9rem;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-btn.active {
+            background: var(--primary);
+        }
+
+        /* Card Grid Layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.15);
+            border-color: var(--primary);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.5rem;
+            background: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .card-content {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            background: rgba(0, 204, 255, 0.1);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .card-link:hover {
+            background: rgba(0, 204, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 70%;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            background: var(--card-bg);
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Quick Access Bar */
+        .quick-access {
+            background: var(--card-bg);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .access-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .access-title {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .access-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .access-link {
+            background: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 18px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            white-space: nowrap;
+        }
+
+        .access-link:hover {
+            background: rgba(138, 43, 226, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .carousel {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .carousel-caption h2 {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 0;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            
+            .theme-toggle span {
+                display: none;
+            }
+            
+            .theme-toggle {
+                padding: 8px;
+            }
+            
+            .carousel {
+                height: 250px;
+            }
+            
+            .carousel-caption {
+                padding: 10px;
+                bottom: 10px;
+            }
+            
+            .carousel-caption h2 {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            
+            .carousel-caption p {
+                font-size: 0.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+                padding-left: 10px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .access-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .access-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <div class="logo-text">EduHub</div>
+        </a>
+        
+        <div class="theme-toggle" id="themeToggle">
+            <i class="fas fa-sun theme-icon"></i>
+            <span id="themeText">Light</span>
+        </div>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Quick Access Bar -->
+    <section class="quick-access">
+        <div class="access-container">
+            <div class="access-title">
+                <i class="fas fa-bolt"></i> Quick Access:
+            </div>
+            <div class="access-links">
+                <a href="https://others.streamfiles.eu.org/nt/index.php" class="access-link">Next Topper</a>
+                <a href="https://studyrays.cc" class="access-link">Physics Wallah</a>
+                <a href="https://www.learnvern.com/r1/11bd32" class="access-link">Learn Vern</a>
+                <a href="https://www.dropbox.com/" class="access-link">Dropbox</a>
+                <a href="https://www.terabox.com/" class="access-link">Terabox</a>
+                <a href="https://filmyfly.loan/" class="access-link">Movies</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Carousel -->
+    <div class="container">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('https://i.ytimg.com/vi/WC4oVE-uaj8/maxresdefault.jpg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://startupstorymedia.com/wp-content/uploads/2022/11/Physics_wallah-1.jpg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://lh3.googleusercontent.com/lhJ5YOJjAPNy7B5ExEnbP5O7D5Pq7OP5gfOSl_Rnu8NAYLluvM864MU1KyzMtCX_e4ggnVOp5Y1sYc7R8tatNiBXf2j77uF-8jGJ=h200');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://www.lifewire.com/thmb/_pBmBApdnUXbwdR09yRxSxrAUx0=/2024x1358/filters:no_upscale():max_bytes(150000):strip_icc()/how-to-use-dropbox-4691424-3-7c813274a752429c82bc221cf7fca44c.jpg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://is2-ssl.mzstatic.com/image/thumb/PurpleSource115/v4/08/a6/4c/08a64c2d-7aec-d518-61c0-63a26ab25277/439f8e41-aade-4d25-9044-829bea72252b_04__U0028_1242_x_2208__U0029.png/750x750bb.jpeg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://dr80rrrj8r45p.cloudfront.net/wp-content/uploads/2021/11/TeraBox1024.png');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://wwwhatsnew.com/wp-content/uploads/2022/10/Conoce-a-TeraBox-el-servicio-de-almacenamiento-en-la-nube-que-te-ofrece-1-TB-de-espacio-gratis.jpg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://www.lifewire.com/thmb/_pBmBApdnUXbwdR09yRxSxrAUx0=/2024x1358/filters:no_upscale():max_bytes(150000):strip_icc()/how-to-use-dropbox-4691424-3-7c813274a752429c82bc221cf7fca44c.jpg');">
+                </div>
+                <div class="carousel-item" style="background-image: url('https://tse4.mm.bing.net/th/id/OIP.g_K3dqJ6srqvlTO5IkNksQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3');">
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn active" data-index="0"></button>
+                <button class="carousel-btn" data-index="1"></button>
+                <button class="carousel-btn" data-index="2"></button>
+                <button class="carousel-btn" data-index="3"></button>
+                <button class="carousel-btn" data-index="4"></button>
+                <button class="carousel-btn" data-index="5"></button>
+                <button class="carousel-btn" data-index="6"></button>
+                <button class="carousel-btn" data-index="7"></button>
+                <button class="carousel-btn" data-index="8"></button>
+                <button class="carousel-btn" data-index="9"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Platforms Section -->
+    <section class="container">
+        <h2 class="section-title">Educational Platforms</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Next Topper</h3>
+                </div>
+                <div class="card-content">
+                    <p>Comprehensive test preparation platform with live classes, mock tests, and performance analytics for competitive exams.</p>
+                    <p><strong>Features:</strong> Live classes, test series, performance tracking</p>
+                </div>
+                <a href="https://others.streamfiles.eu.org/nt/index.php" class="card-link">Explore Courses</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3 class="card-title">Physics Wallah</h3>
+                </div>
+                <div class="card-content">
+                    <p>India's most popular physics learning platform with engaging video lectures, study material, and doubt solving.</p>
+                    <p><strong>Features:</strong> Physics lectures, study materials, doubt sessions</p>
+                </div>
+                <a href="https://studyrays.cc" class="card-link">View Content</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="card-title">Learn Vern</h3>
+                </div>
+                <div class="card-content">
+                    <p>Learn practical skills with vernacular language courses in programming, digital marketing, and business.</p>
+                    <p><strong>Features:</strong> Vernacular courses, practical skills, certifications</p>
+                </div>
+                <a href="https://www.learnvern.com/r1/11bd32" class="card-link">Start Learning</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools & Storage Section -->
+    <section class="container">
+        <h2 class="section-title">Tools & Storage</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3 class="card-title">Dropbox</h3>
+                </div>
+                <div class="card-content">
+                    <p>Cloud storage solution for all your educational resources. Access your files anywhere, anytime.</p>
+                    <p><strong>Features:</strong> File storage, sharing, collaboration tools</p>
+                </div>
+                <a href="https://www.dropbox.com/" class="card-link">Store Files</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="card-title">Terabox</h3>
+                </div>
+                <div class="card-content">
+                    <p>Massive cloud storage with 1TB free space. Perfect for storing large educational videos and materials.</p>
+                    <p><strong>Features:</strong> 1TB free storage, large file support</p>
+                </div>
+                <a href="https://www.terabox.com/" class="card-link">Get Storage</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="card-title">Movies & Entertainment</h3>
+                </div>
+                <div class="card-content">
+                    <p>Collection of educational films, documentaries, and informative content to enhance your learning experience.</p>
+                    <p><strong>Features:</strong> Documentaries, educational films, tutorials</p>
+                </div>
+                <a href="https://filmyfly.loan/" class="card-link">Watch Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-lock-open"></i>
+                    </div>
+                    <h3 class="card-title">Free Access</h3>
+                </div>
+                <div class="card-content">
+                    <p>All resources and platforms are completely free to use with no hidden costs or subscriptions.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="card-title">Cross-Platform</h3>
+                </div>
+                <div class="card-content">
+                    <p>Access your resources from any device - mobile, tablet, or desktop - with seamless synchronization.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="card-title">Cloud Integration</h3>
+                </div>
+                <div class="card-content">
+                    <p>Directly save and access your study materials from Dropbox and Terabox within our platform.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="container">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3 style="color: var(--primary); margin-bottom: 10px; font-size: 1.2rem;">EduHub</h3>
+                <p style="color: var(--text-secondary); max-width: 400px; font-size: 0.9rem;">Your all-in-one educational resource hub with premium content, cloud storage, and learning tools.</p>
+            </div>
+            <div class="footer-links">
+                <a href="mailto:santoshkumar9572hzb@gmail.com"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="#"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#"><i class="fas fa-shield-alt"></i> Privacy</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 EduHub. All rights reserved. | Designed with ❤️ for Students
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        const body = document.body;
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.className = 'fas fa-moon theme-icon';
+            themeText.textContent = 'Dark';
+        } else {
+            body.classList.remove('dark-mode');
+            themeIcon.className = 'fas fa-sun theme-icon';
+            themeText.textContent = 'Light';
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-sun theme-icon';
+                themeText.textContent = 'Light';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-moon theme-icon';
+                themeText.textContent = 'Dark';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Image Carousel Functionality
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const carouselButtons = document.querySelectorAll('.carousel-btn');
+        let currentIndex = 0;
+        
+        function showSlide(index) {
+            // Hide all slides
+            carouselItems.forEach(item => item.classList.remove('active'));
+            carouselButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show the selected slide
+            carouselItems[index].classList.add('active');
+            carouselButtons[index].classList.add('active');
+            
+            currentIndex = index;
+        }
+        
+        // Add click events to carousel buttons
+        carouselButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                showSlide(index);
+                resetTimer();
+            });
+        });
+        
+        // Auto slide functionality
+        let slideTimer = setInterval(nextSlide, 5000);
+        
+        function nextSlide() {
+            let nextIndex = (currentIndex + 1) % carouselItems.length;
+            showSlide(nextIndex);
+        }
+        
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(nextSlide, 5000);
+        }
+        
+        // Add animation to cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(20px)";
+                card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                observer.observe(card);
+            });
+        });
+        
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const quickAccess = document.querySelector('.quick-access');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            quickAccess.style.display = quickAccess.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                quickAccess.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
