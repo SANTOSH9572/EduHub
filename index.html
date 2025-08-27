@@ -1161,8 +1161,6 @@
         </div>
     </footer>
 
-
-
     <script>
         // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
@@ -1223,11 +1221,14 @@
             });
         });
         
-        // Manual slide functionality only
+        // Auto slide functionality
         function nextSlide() {
             let nextIndex = (currentIndex + 1) % carouselItems.length;
             showSlide(nextIndex);
         }
+        
+        // Auto-change carousel every 2 seconds
+        setInterval(nextSlide, 2000);
         
         // Add animation to cards on scroll
         document.addEventListener('DOMContentLoaded', function() {
@@ -1547,7 +1548,7 @@
         setInterval(updateClock, 1000);
         setInterval(updateProgress, 5000);
     </script>
-                       <!-- Main Telegram Channel Popup -->
+<!-- Main Telegram Channel Popup -->
 <div id="mainChannelPopup" style="
   display: none;
   position: fixed;
@@ -1633,11 +1634,5 @@
     document.getElementById('discussionChannelPopup').style.display = 'none';
   }
 </script>
-
-
 </body>
 </html>
-
-
-
-
