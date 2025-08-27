@@ -1586,6 +1586,48 @@
     }, 2000); // delay in milliseconds
   };
 </script>
+            <!-- Telegram Discussion Channel Popup -->
+<div id="eduHubDiscussionPopup" style="
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: #23272f;
+  color: #fff;
+  padding: 28px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+  z-index: 9999;
+  text-align: center;
+  max-width: 390px;
+">
+  <h2 style="margin-top:0;">Join EduHub Discussion!</h2>
+  <p style="margin-bottom: 18px;">
+    Connect with fellow learners and participate in discussions.<br>
+    Join our Telegram discussion channel to stay active and updated.
+    <br>👇👇
+  </p>
+  <a href="https://t.me/eduhub_all" target="_blank"
+     style="background:#00b4d8;color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:1.08em;display:inline-block;">
+    Join Discussion Channel
+  </a>
+  <br><br>
+  <button onclick="document.getElementById('eduHubDiscussionPopup').style.display='none';" style="background:#34384a;color:#fff;padding:7px 16px;border-radius:6px;border:none;cursor:pointer;">
+    Close
+  </button>
+</div>
+
+<script>
+  // Show popup after 2 seconds
+  window.onload = function() {
+    setTimeout(function(){
+      document.getElementById('eduHubDiscussionPopup').style.display = 'block';
+    }, 2000);
+  };
+</script>
+
 </body>
 </html>
+
 
