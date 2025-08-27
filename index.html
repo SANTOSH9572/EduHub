@@ -75,15 +75,59 @@
             padding: 0 20px;
         }
 
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body {
+            padding-top: 0;
+        }
+
+        .alert-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
         /* Header Styles */
         header {
             padding: 15px 0;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
             position: relative;
-            border-bottom: 1px solid var(--border);
-            background-color: var(--card-bg);
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+        }
+
+        body.dark-mode header {
+            background: rgba(30, 30, 30, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .logo {
@@ -112,13 +156,20 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 30px;
-            padding: 6px 12px;
+            padding: 8px 16px;
             cursor: pointer;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .theme-toggle:hover {
@@ -227,21 +278,33 @@
         }
 
         .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
             position: relative;
             overflow: hidden;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .card {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.15);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
             border-color: var(--primary);
+        }
+
+        body.dark-mode .card:hover {
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
         }
 
         .card-header {
@@ -284,21 +347,39 @@
 
         .card-link {
             display: inline-block;
-            background: rgba(0, 204, 255, 0.1);
-            color: var(--primary);
-            padding: 8px 20px;
-            border-radius: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 204, 255, 0.3);
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
             text-align: center;
             font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .card-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
 
         .card-link:hover {
-            background: rgba(0, 204, 255, 0.2);
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        .card-link:hover::before {
+            left: 100%;
         }
 
         /* Section Titles */
@@ -368,55 +449,132 @@
 
         /* Quick Access Bar */
         .quick-access {
-            background: var(--card-bg);
-            padding: 12px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(74, 63, 207, 0.1));
+            padding: 15px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.1);
+        }
+
+        body.dark-mode .quick-access {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 204, 255, 0.1));
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
         }
 
         .access-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .access-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
+        }
+
+        .access-category {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .access-title {
             color: var(--primary);
-            font-weight: 600;
-            font-size: 0.95rem;
+            font-weight: 700;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .access-title i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .access-links {
             display: flex;
-            gap: 8px;
+            gap: 12px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
         .access-link {
-            background: rgba(138, 43, 226, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 18px;
+            padding: 8px 16px;
+            border-radius: 25px;
             text-decoration: none;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
         }
 
         .access-link:hover {
-            background: rgba(138, 43, 226, 0.2);
+            background: rgba(108, 92, 231, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            border-color: var(--primary);
+        }
+
+        .access-link:hover::before {
+            left: 100%;
+        }
+
+        body.dark-mode .access-link {
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+
+        body.dark-mode .access-link:hover {
+            background: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+        }
+
+        /* Timer Button Styles */
+        .timer-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
         }
 
         /* Responsive Design */
@@ -492,14 +650,19 @@
                 grid-template-columns: 1fr;
             }
             
-            .access-container {
+            .access-row {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 10px;
             }
             
-            .access-links {
+            .access-category {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .access-title {
+                font-size: 1rem;
             }
             
             .footer-content {
@@ -510,6 +673,14 @@
     </style>
 </head>
 <body>
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <i class="fas fa-info-circle"></i> 
+        <strong>Important:</strong> If the first website doesn't work, please try the second website option!
+    </div>
+
+
+
     <!-- Header -->
     <header>
         <a href="#" class="logo">
@@ -530,21 +701,46 @@
     <!-- Quick Access Bar -->
     <section class="quick-access">
         <div class="access-container">
-            <div class="access-title">
-                <i class="fas fa-bolt"></i> Quick Access:
+            <!-- Physics Wallah Section -->
+            <div class="access-row">
+                <div class="access-title">
+                    <i class="fas fa-atom"></i> Physics Wallah:
+                </div>
+                <div class="access-category">
+                    <a href="https://edunova-pw.vercel.app/api/index.php" class="access-link">⚡ PW 1.0</a>
+                    <a href="https://studyrays.cc" class="access-link">🚀 PW 2.0</a>
+                    <a href="https://studyratna.co/" class="access-link">💎 PW 3.0</a>
+                </div>
             </div>
-            <div class="access-links">
-                <a href="https://edunova-pw.vercel.app/api/index.php" class="access-link">Physics Wallah</a>
-                <a href="https://studyrays.cc" class="access-link">Physics Wallah 2.0</a>
-                <a href="https://studyratna.co/" class="access-link">Physics Wallah 3.0</a>
-                <a href="https://edu-vibe-nt.vercel.app/" class="access-link">Next Topper</a>
-                <a href="https://others.streamfiles.eu.org/nt/index.php" class="access-link">Next Topper 2.0</a>
-                <a href="https://studyratna.co/" class="access-link">Next Topper 3.0</a>
-                <a href="https://www.learnvern.com/r1/11bd32" class="access-link">Learn Vern</a>
-                <a href="https://www.dropbox.com/" class="access-link">Dropbox</a>
-                <a href="https://www.terabox.com/" class="access-link">Terabox</a>
-                <a href="https://filmyfly.loan/" class="access-link">Movies</a>
+            
+            <!-- Next Topper Section -->
+            <div class="access-row">
+                <div class="access-title">
+                    <i class="fas fa-chart-line"></i> Next Topper:
+                </div>
+                <div class="access-category">
+                    <a href="https://edu-vibe-nt.vercel.app/" class="access-link">🎯 NT 1.0</a>
+                    <a href="https://others.streamfiles.eu.org/nt/index.php" class="access-link">📈 NT 2.0</a>
+                    <a href="https://studyratna.co/" class="access-link">🏆 NT 3.0</a>
+                </div>
             </div>
+            
+
+        </div>
+    </section>
+    <!-- Welcome Section -->
+    <section class="container">
+        <div style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, var(--accent), var(--primary)); border-radius: 25px; margin: 20px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(108, 92, 231, 0.3);">
+            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: float 6s ease-in-out infinite;"></div>
+            <h1 style="font-size: 2.8rem; margin-bottom: 15px; position: relative; z-index: 1;">👋 Welcome to EduHub!</h1>
+            <p style="font-size: 1.3rem; margin-bottom: 20px; position: relative; z-index: 1;">Your friendly learning companion for academic success</p>
+            <p style="font-size: 1.1rem; opacity: 0.9; position: relative; z-index: 1;">✨ Discover amazing resources • 🚀 Learn at your pace • 🎯 Achieve your goals</p>
+            <style>
+                @keyframes float {
+                    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+                    50% { transform: translate(-50%, -50%) rotate(180deg); }
+                }
+            </style>
         </div>
     </section>
 
@@ -570,17 +766,23 @@
                         <p>Interactive content that makes learning fun!</p>
                     </div>
                 </div>
-                <div class="carousel-item" style="background-image: url('https://www.lifewire.com/thmb/_pBmBApdnUXbwdR09yRxSxrAUx0=/2024x1358/filters:no_upscale():max_bytes(150000):strip_icc()/how-to-use-dropbox-4691424-3-7c813274a752429c82bc221cf7fca44c.jpg');">
-                </div>
                 <div class="carousel-item" style="background-image: url('https://is2-ssl.mzstatic.com/image/thumb/PurpleSource115/v4/08/a6/4c/08a64c2d-7aec-d518-61c0-63a26ab25277/439f8e41-aade-4d25-9044-829bea72252b_04__U0028_1242_x_2208__U0029.png/750x750bb.jpeg');">
+                    <div class="carousel-caption">
+                        <h2>📱 Mobile Learning</h2>
+                        <p>Study anywhere with our mobile apps</p>
+                    </div>
                 </div>
                 <div class="carousel-item" style="background-image: url('https://dr80rrrj8r45p.cloudfront.net/wp-content/uploads/2021/11/TeraBox1024.png');">
-                </div>
-                <div class="carousel-item" style="background-image: url('https://wwwhatsnew.com/wp-content/uploads/2022/10/Conoce-a-TeraBox-el-servicio-de-almacenamiento-en-la-nube-que-te-ofrece-1-TB-de-espacio-gratis.jpg');">
+                    <div class="carousel-caption">
+                        <h2>☁️ Cloud Storage</h2>
+                        <p>1TB free storage for all your study materials</p>
+                    </div>
                 </div>
                 <div class="carousel-item" style="background-image: url('https://www.lifewire.com/thmb/_pBmBApdnUXbwdR09yRxSxrAUx0=/2024x1358/filters:no_upscale():max_bytes(150000):strip_icc()/how-to-use-dropbox-4691424-3-7c813274a752429c82bc221cf7fca44c.jpg');">
-                </div>
-                <div class="carousel-item" style="background-image: url('https://tse4.mm.bing.net/th/id/OIP.g_K3dqJ6srqvlTO5IkNksQHaEK?r=0&rs=1&pid=ImgDetMain&o=7&rm=3');">
+                    <div class="carousel-caption">
+                        <h2>🔄 Sync Everywhere</h2>
+                        <p>Access your files from any device</p>
+                    </div>
                 </div>
             </div>
             <div class="carousel-controls">
@@ -590,16 +792,6 @@
                 <button class="carousel-btn" data-index="3"></button>
                 <button class="carousel-btn" data-index="4"></button>
                 <button class="carousel-btn" data-index="5"></button>
-                <button class="carousel-btn" data-index="6"></button>
-                <button class="carousel-btn" data-index="7"></button>
-                <button class="carousel-btn" data-index="8"></button>
-                <button class="carousel-btn" data-index="9"></button>
-                <button class="carousel-btn" data-index="10"></button>
-                <button class="carousel-btn" data-index="11"></button>
-                <button class="carousel-btn" data-index="12"></button>
-                <button class="carousel-btn" data-index="13"></button>
-                <button class="carousel-btn" data-index="14"></button>
-                <button class="carousel-btn" data-index="15"></button>
 
             </div>
         </div>
@@ -609,6 +801,7 @@
     <section class="container">
         <h2 class="section-title">🎯 Your Learning Destinations</h2>
         
+        <div class="card-grid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -618,12 +811,16 @@
                 </div>
                 <div class="card-content">
                     <p>🌟 India's most loved learning platform! Get ready for engaging video lectures, comprehensive study materials, and instant doubt clearing.</p>
-                    <p><strong>What you'll love:</strong> Interactive lectures, downloadable notes, live doubt sessions 💬</p>
+                    <p><strong>Available Versions:</strong></p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0;">
+                        <a href="https://edunova-pw.vercel.app/api/index.php" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">⚡ PW 1.0</a>
+                        <a href="https://studyrays.cc" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🚀 PW 2.0</a>
+                        <a href="https://studyratna.co/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">💎 PW 3.0</a>
+                    </div>
                 </div>
                 <a href="https://edunova-pw.vercel.app/api/index.php" class="card-link">🚀 Start Learning</a>
             </div>
             
-            <div class="card-grid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -633,12 +830,24 @@
                 </div>
                 <div class="card-content">
                     <p>🎯 Your ultimate exam preparation buddy! Master competitive exams with live classes, practice tests, and detailed performance insights.</p>
-                    <p><strong>What awaits you:</strong> Expert live classes, unlimited mock tests, smart analytics 📊</p>
+                    <p><strong>Available Versions:</strong></p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0;">
+                        <a href="https://edu-vibe-nt.vercel.app/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🎯 NT 1.0</a>
+                        <a href="https://others.streamfiles.eu.org/nt/index.php" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">📈 NT 2.0</a>
+                        <a href="https://studyratna.co/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🏆 NT 3.0</a>
+                    </div>
                 </div>
                 <a href="https://others.streamfiles.eu.org/nt/index.php" class="card-link">🎓 Join Classes</a>
             </div>
-        
+        </div>
+    </section>
 
+
+
+    <!-- Tools & Storage Section -->
+    <section class="container">
+        <h2 class="section-title">🛠️ Your Digital Toolkit</h2>
+        <div class="card-grid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -652,13 +861,7 @@
                 </div>
                 <a href="https://www.learnvern.com/r1/11bd32" class="card-link">💪 Build Skills</a>
             </div>
-        </div>
-    </section>
-
-    <!-- Tools & Storage Section -->
-    <section class="container">
-        <h2 class="section-title">🛠️ Your Digital Toolkit</h2>
-        <div class="card-grid">
+            
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
@@ -687,19 +890,138 @@
                 <a href="https://www.terabox.com/" class="card-link">🎁 Claim Free Space</a>
             </div>
             
+    </section>
+
+    <!-- Movies Section -->
+    <section class="container">
+        <h2 class="section-title">🎬 Movies & Entertainment Hub</h2>
+        <div class="card-grid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-icon">
                         <i class="fas fa-film"></i>
                     </div>
-                    <h3 class="card-title">Movies & Entertainment</h3>
+                    <h3 class="card-title">FilmyFly</h3>
                 </div>
                 <div class="card-content">
-                    <p>🎬 Take a fun break with educational movies and documentaries! Learn while you relax with inspiring content and tutorials.</p>
-                    <p><strong>Entertainment plus learning:</strong> Educational documentaries, inspiring biopics, skill tutorials 🍿</p>
+                    <p>🎭 Your ultimate destination for movies and entertainment! Enjoy the latest releases, classic films, and trending content all in one place.</p>
+                    <p><strong>Features:</strong> HD quality, latest movies, multiple genres, fast streaming 🚀</p>
                 </div>
-                <a href="https://filmyfly.loan/" class="card-link">🎥 Start Watching</a>
+                <a href="https://filmyfly.xyz/" class="card-link">🎥 Watch Now</a>
             </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="card-title">VegaMovies</h3>
+                </div>
+                <div class="card-content">
+                    <p>🌟 Premium movie streaming experience with extensive collection! From Bollywood blockbusters to Hollywood hits, everything you need.</p>
+                    <p><strong>Highlights:</strong> Multi-language support, HD downloads, regular updates 📱</p>
+                </div>
+                <a href="https://vegamovies.nagoya/" class="card-link">🍿 Explore Movies</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="card-title">FilmyZilla</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎪 Premium movie collection with latest releases! Enjoy high-quality entertainment with fast downloads and streaming options.</p>
+                    <p><strong>Benefits:</strong> Latest movies, multiple formats, fast downloads 🎯</p>
+                </div>
+                <a href="https://filmyzilla1.com.ng/" class="card-link">🎬 Start Streaming</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Tools Section -->
+    <section class="container">
+        <h2 class="section-title">🎯 Study Tools & Features</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="card-title">Focus Timer</h3>
+                </div>
+                <div class="card-content">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px; margin-bottom: 15px; text-align: center; color: white;">
+                        <div id="timerDisplay" style="font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">25:00</div>
+                        <div style="background: rgba(255,255,255,0.2); border-radius: 10px; height: 6px; margin-bottom: 10px; overflow: hidden;">
+                            <div id="timerProgress" style="background: #4CAF50; height: 100%; width: 0%; transition: width 1s ease;"></div>
+                        </div>
+                        <div id="timerStatus" style="font-size: 0.9rem; opacity: 0.9;">Ready to focus 🎯</div>
+                    </div>
+                    <select id="timerPreset" style="width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 15px; font-size: 0.9rem;">
+                        <option value="25">🍅 Pomodoro Focus (25 min)</option>
+                        <option value="15">⚡ Quick Session (15 min)</option>
+                        <option value="45">📚 Deep Work (45 min)</option>
+                        <option value="5">☕ Short Break (5 min)</option>
+                    </select>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                        <button id="startTimer" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-play"></i> Start</button>
+                        <button id="pauseTimer" style="background: #FF9800; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-pause"></i> Pause</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button id="resetTimer" style="background: #f44336; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-redo"></i> Reset</button>
+                        <button id="customTimer" style="background: var(--primary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;"><i class="fas fa-cog"></i> Custom</button>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="card-title">Smart Calendar</h3>
+                </div>
+                <div class="card-content">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 15px; border-radius: 12px; margin-bottom: 15px; color: white; text-align: center;">
+                        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">📅 Today's Schedule</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;" id="currentDate"></div>
+                    </div>
+                    <div id="calendarEvents" style="max-height: 120px; overflow-y: auto; margin-bottom: 15px;"></div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                        <button id="addEvent" style="background: #4CAF50; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px;"><i class="fas fa-plus"></i> Add</button>
+                        <button id="editEvent" style="background: #FF9800; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 5px;"><i class="fas fa-edit"></i> Edit</button>
+                    </div>
+                    <button id="deleteEvent" style="background: #f44336; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; width: 100%; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 5px;"><i class="fas fa-trash"></i> Delete Event</button>
+                </div>
+            </div>
+            
+
+            
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <h3 class="card-title">Quick Notes</h3>
+                </div>
+                <div class="card-content">
+                    <input id="noteSubject" placeholder="Subject (e.g., Math)" style="width: 100%; margin-bottom: 8px; padding: 6px; border: 1px solid #ddd; border-radius: 5px;">
+                    <input id="noteTitle" placeholder="Title (e.g., Algebra Formulas)" style="width: 100%; margin-bottom: 8px; padding: 6px; border: 1px solid #ddd; border-radius: 5px;">
+                    <textarea id="quickNotes" placeholder="Write your notes here..." style="width: 100%; height: 60px; border: 1px solid #ddd; border-radius: 5px; padding: 8px; resize: none; margin-bottom: 8px;"></textarea>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                        <button id="saveNote" class="timer-btn">💾 Save</button>
+                        <button id="viewNotes" class="timer-btn">📄 View All</button>
+                        <button id="searchNotes" class="timer-btn">🔍 Search</button>
+                    </div>
+                    <div id="notesDisplay" style="margin-top: 10px; max-height: 150px; overflow-y: auto; display: none;"></div>
+                </div>
+            </div>
+            
+
         </div>
     </section>
 
@@ -745,23 +1067,101 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="container">
-        <div class="footer-content">
-            <div class="footer-info">
-                <h3 style="color: var(--primary); margin-bottom: 10px; font-size: 1.2rem;">EduHub</h3>
-                <p style="color: var(--text-secondary); max-width: 400px; font-size: 0.9rem;">🌟 Your friendly learning companion! We're here to make education accessible, enjoyable, and effective for every student.</p>
+    <!-- Enhanced Footer -->
+    <footer style="background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; margin-top: 60px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%23fff" stop-opacity=".1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><circle cx="10" cy="10" r="10" fill="url(%23a)"/><circle cx="90" cy="10" r="15" fill="url(%23a)"/></svg></div>
+        
+        <div class="container" style="position: relative; z-index: 1; padding: 50px 20px 30px;">
+            <!-- Main Footer Content -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                
+                <!-- EduHub Brand Section -->
+                <div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                        <i class="fas fa-graduation-cap" style="font-size: 2.5rem; color: rgba(255,255,255,0.9);"></i>
+                        <h2 style="font-size: 2rem; font-weight: 800; margin: 0;">EduHub</h2>
+                    </div>
+                    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 20px; opacity: 0.9;">
+                        🌟 Empowering students worldwide with free, accessible, and quality education. Your journey to success starts here!
+                    </p>
+                    <div style="display: flex; gap: 15px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 50%; backdrop-filter: blur(10px);">
+                            <i class="fas fa-users" style="font-size: 1.2rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1rem;">50,000+</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Happy Students</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 700;">🚀 Quick Access</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="https://edunova-pw.vercel.app/api/index.php" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-atom"></i> Physics Wallah
+                        </a>
+                        <a href="https://others.streamfiles.eu.org/nt/index.php" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-chart-line"></i> Next Topper
+                        </a>
+                        <a href="https://www.learnvern.com/r1/11bd32" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-laptop-code"></i> Learn Vern
+                        </a>
+                        <a href="https://www.dropbox.com/" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-cloud"></i> Cloud Storage
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact & Support -->
+                <div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 700;">📞 Get in Touch</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <a href="mailto:santoshkumar9572hzb@gmail.com" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div style="font-weight: 600;">Email Support</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">We're here to help!</div>
+                            </div>
+                        </a>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; text-align: center;">
+                                <i class="fas fa-shield-alt" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                                <div style="font-size: 0.8rem;">Secure & Safe</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; text-align: center;">
+                                <i class="fas fa-clock" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                                <div style="font-size: 0.8rem;">24/7 Access</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-links">
-                <a href="mailto:santoshkumar9572hzb@gmail.com"><i class="fas fa-envelope"></i> Contact</a>
-                <a href="#"><i class="fas fa-info-circle"></i> About</a>
-                <a href="#"><i class="fas fa-shield-alt"></i> Privacy</a>
+            
+            <!-- Bottom Section -->
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 1.1rem; font-weight: 600;">🎆 Made with ❤️ for Students</div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                        🚀 Always Free
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                        🌱 Keep Growing
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 EduHub. Made with lots of ❤️ and ☕ for amazing students like you! Keep learning, keep growing! 🌱
+            
+            <!-- Copyright -->
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; opacity: 0.8;">
+                &copy; 2025 EduHub - Transforming Education, One Student at a Time ✨
+            </div>
         </div>
     </footer>
+
+
 
     <script>
         // Theme toggle functionality
@@ -820,21 +1220,13 @@
         carouselButtons.forEach((button, index) => {
             button.addEventListener('click', () => {
                 showSlide(index);
-                resetTimer();
             });
         });
         
-        // Auto slide functionality
-        let slideTimer = setInterval(nextSlide, 5000);
-        
+        // Manual slide functionality only
         function nextSlide() {
             let nextIndex = (currentIndex + 1) % carouselItems.length;
             showSlide(nextIndex);
-        }
-        
-        function resetTimer() {
-            clearInterval(slideTimer);
-            slideTimer = setInterval(nextSlide, 5000);
         }
         
         // Add animation to cards on scroll
@@ -872,7 +1264,297 @@
                 quickAccess.style.display = 'block';
             }
         });
+        
+        // Real-time clock functionality
+        function updateClock() {
+            const now = new Date();
+            
+            // Format time
+            const timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            
+            // Format date
+            const dateOptions = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            const dateString = now.toLocaleDateString('en-US', dateString);
+            
+            // Update DOM elements
+            document.getElementById('realTimeClock').textContent = timeString;
+            document.getElementById('currentDate').textContent = dateString;
+        }
+        
+        // Study Timer functionality
+        let timerInterval;
+        let timeLeft = 25 * 60;
+        let isRunning = false;
+        let totalTime = 25 * 60;
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update progress bar
+            const progress = ((totalTime - timeLeft) / totalTime * 100);
+            const progressBar = document.getElementById('timerProgress');
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+            }
+            
+            // Update status
+            const status = document.getElementById('timerStatus');
+            if (isRunning) {
+                status.textContent = `💪 Focusing... ${Math.round(progress)}% complete`;
+            } else if (timeLeft === totalTime) {
+                status.textContent = 'Ready to focus 🎯';
+            } else {
+                status.textContent = '⏸️ Session paused';
+            }
+        }
+        
+        // Timer preset change
+        document.getElementById('timerPreset').addEventListener('change', (e) => {
+            if (!isRunning) {
+                timeLeft = totalTime = parseInt(e.target.value) * 60;
+                updateTimerDisplay();
+            }
+        });
+        
+        // Custom timer
+        document.getElementById('customTimer').addEventListener('click', () => {
+            if (!isRunning) {
+                const minutes = prompt('⏰ Enter minutes (1-120):');
+                if (minutes && minutes > 0 && minutes <= 120) {
+                    timeLeft = totalTime = parseInt(minutes) * 60;
+                    updateTimerDisplay();
+                }
+            }
+        });
+        
+        document.getElementById('startTimer').addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        document.getElementById('timerStatus').textContent = '🎉 Session complete!';
+                        alert('🎉 Study session complete! Time for a break!');
+                        timeLeft = totalTime;
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+        });
+        
+        document.getElementById('pauseTimer').addEventListener('click', () => {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                updateTimerDisplay();
+            }
+        });
+        
+        document.getElementById('resetTimer').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = totalTime;
+            updateTimerDisplay();
+        });
+        
+        // Progress tracking
+        function updateProgress() {
+            const progress = Math.min(100, (Date.now() % 100000) / 1000);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+        }
+        
+        // Enhanced Notes functionality
+        let studyNotes = JSON.parse(localStorage.getItem('studyNotes')) || [];
+        
+        function saveStudyNotes() {
+            localStorage.setItem('studyNotes', JSON.stringify(studyNotes));
+        }
+        
+        function displayNotes(notesToShow = studyNotes) {
+            const display = document.getElementById('notesDisplay');
+            if (notesToShow.length === 0) {
+                display.innerHTML = '<div style="text-align: center; color: #666;">No notes found</div>';
+            } else {
+                display.innerHTML = notesToShow.map((note, index) => 
+                    `<div style="border: 1px solid #ddd; padding: 8px; margin: 5px 0; border-radius: 5px; background: #f9f9f9;">
+                        <div style="font-weight: bold; color: var(--primary);">📚 ${note.subject} - ${note.title}</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">${note.content}</div>
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">${note.date}</div>
+                        <button onclick="deleteNote(${index})" style="background: #ff4757; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; margin-top: 5px;">🗑️ Delete</button>
+                    </div>`
+                ).join('');
+            }
+            display.style.display = 'block';
+        }
+        
+        function deleteNote(index) {
+            if (confirm('Delete this note?')) {
+                studyNotes.splice(index, 1);
+                saveStudyNotes();
+                displayNotes();
+            }
+        }
+        
+        document.getElementById('saveNote').addEventListener('click', () => {
+            const subject = document.getElementById('noteSubject').value.trim();
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('quickNotes').value.trim();
+            
+            if (subject && title && content) {
+                const note = {
+                    subject,
+                    title,
+                    content,
+                    date: new Date().toLocaleDateString()
+                };
+                studyNotes.unshift(note);
+                saveStudyNotes();
+                
+                // Clear form
+                document.getElementById('noteSubject').value = '';
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('quickNotes').value = '';
+                
+                alert('📝 Note saved successfully!');
+            } else {
+                alert('Please fill in all fields!');
+            }
+        });
+        
+        document.getElementById('viewNotes').addEventListener('click', () => {
+            displayNotes();
+        });
+        
+        document.getElementById('searchNotes').addEventListener('click', () => {
+            const searchTerm = prompt('🔍 Search notes (subject, title, or content):');
+            if (searchTerm) {
+                const filtered = studyNotes.filter(note => 
+                    note.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    note.content.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                displayNotes(filtered);
+            }
+        });
+        
+        // Study Calendar functionality
+        let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || [
+            {subject: 'Math', time: '2:00 PM', emoji: '📚'},
+            {subject: 'Physics', time: '4:00 PM', emoji: '🧪'},
+            {subject: 'English', time: '6:00 PM', emoji: '📖'}
+        ];
+        
+        function updateCalendarDisplay() {
+            const container = document.getElementById('calendarEvents');
+            if (calendarEvents.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; font-style: italic; padding: 20px;">📅 No events scheduled</div>';
+            } else {
+                container.innerHTML = calendarEvents.map((event, index) => 
+                    `<div style="background: white; padding: 12px; margin: 8px 0; border-radius: 10px; border-left: 4px solid var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'" data-index="${index}">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.2rem;">${event.emoji}</span>
+                            <div>
+                                <div style="font-weight: 600; color: var(--text);">${event.subject}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">⏰ ${event.time}</div>
+                            </div>
+                        </div>
+                        <div style="width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    </div>`
+                ).join('');
+            }
+            
+            // Update current date
+            const dateElement = document.getElementById('currentDate');
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+        
+        function saveCalendarEvents() {
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addEvent').addEventListener('click', () => {
+                const subject = prompt('📚 Enter subject:');
+                const time = prompt('⏰ Enter time (e.g., 2:00 PM):');
+                const emoji = prompt('🎆 Enter emoji (optional):') || '📚';
+                
+                if (subject && time) {
+                    calendarEvents.push({subject, time, emoji});
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            });
+        });
+        
+        document.getElementById('editEvent').addEventListener('click', () => {
+            const index = prompt(`✏️ Enter event number to edit (1-${calendarEvents.length}):`);
+            if (index && index > 0 && index <= calendarEvents.length) {
+                const event = calendarEvents[index - 1];
+                const subject = prompt('📚 Edit subject:', event.subject);
+                const time = prompt('⏰ Edit time:', event.time);
+                const emoji = prompt('🎆 Edit emoji:', event.emoji);
+                
+                if (subject && time) {
+                    calendarEvents[index - 1] = {subject, time, emoji: emoji || '📚'};
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            }
+        });
+        
+        document.getElementById('deleteEvent').addEventListener('click', () => {
+            const index = prompt(`🗑️ Enter event number to delete (1-${calendarEvents.length}):`);
+            if (index && index > 0 && index <= calendarEvents.length) {
+                if (confirm(`Delete "${calendarEvents[index - 1].subject}"?`)) {
+                    calendarEvents.splice(index - 1, 1);
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            }
+        });
+        
+        // Initialize calendar display
+        updateCalendarDisplay();
+        
+
+        
+        // Telegram channel popup
+        setTimeout(() => {
+            if (confirm('Welcome to EduHub!\n\nExplore batches and start learning with ease. This website is absolutely free of cost. If you don\'t have joined the telegram channel, join it because I will give there updates 👆 👆\n\nClick OK to Join Telegram or Cancel to continue browsing.')) {
+                window.open('https://t.me/+c-d8q-qp1kM0OGY1', '_blank');
+            }
+        }, 3000);
+        
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+        setInterval(updateProgress, 5000);
     </script>
 </body>
 </html>
-
