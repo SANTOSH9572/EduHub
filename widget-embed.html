@@ -42,6 +42,7 @@
             cursor: pointer;
             font-weight: 600;
             margin-top: 10px;
+            transition: all 0.3s ease;
         }
         .copy-btn:hover {
             transform: translateY(-2px);
@@ -75,6 +76,11 @@
             font-weight: 600;
             text-decoration: none;
             display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
     </style>
 </head>
@@ -156,9 +162,30 @@
     <script>
         function copyEmbedCode() {
             const embedCode = document.getElementById('embedCode').textContent;
-            navigator.clipboard.writeText(embedCode.trim()).then(() => {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(embedCode.trim()).then(() => {
+                    alert('📋 Embed code copied to clipboard!');
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(embedCode.trim());
+                });
+            } else {
+                fallbackCopyTextToClipboard(embedCode.trim());
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
                 alert('📋 Embed code copied to clipboard!');
-            });
+            } catch (err) {
+                alert('❌ Failed to copy. Please copy manually.');
+            }
+            document.body.removeChild(textArea);
         }
     </script>
 
