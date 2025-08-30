@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PW 1.0 Access Keys</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid #333;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        
+        .title {
+            font-size: 16px;
+            color: white;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #ccc;
+            margin: 0 0 15px 0;
+        }
+        
+        .keys-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .key-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin: 3px 0;
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        
+        .key-text {
+            font-family: monospace;
+            font-size: 13px;
+        }
+        
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        
+        .copy-all-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h3 class="title">🔐 PW 1.0</h3>
+            <button class="close-btn" onclick="window.close()">✕</button>
+        </div>
+        
+        <h4 class="subtitle">Access Key</h4>
+        
+         <div class="keys-container">
+            <div class="key-item">
+                <span class="key-text">1. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">2. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">3. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">4. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">5. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">6. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">7. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">8. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">9. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+            <div class="key-item">
+                <span class="key-text">10. </span>
+                <button class="copy-btn" onclick="copyKey('')">Copy</button>
+            </div>
+        </div> 
+
+        <button class="copy-all-btn" onclick="copyAllKeys()">Copy All Keys</button>
+    </div>
+
+    <script>
+        // Daily Access Keys - Update this array only
+        const dailyKeys = [
+            '990-7EE-8EF-6C3-C0C',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        ];
+        
+        // Auto-populate keys on page load
+        window.onload = function() {
+            const keyItems = document.querySelectorAll('.key-item');
+            keyItems.forEach((item, index) => {
+                if (dailyKeys[index]) {
+                    const keyText = item.querySelector('.key-text');
+                    const copyBtn = item.querySelector('.copy-btn');
+                    keyText.textContent = `${index + 1}. ${dailyKeys[index]}`;
+                    copyBtn.setAttribute('onclick', `copyKey('${dailyKeys[index]}')`);
+                }
+            });
+        };
+        
+        function copyKey(key) {
+            navigator.clipboard.writeText(key).then(() => {
+                alert('Copied: ' + key);
+            }).catch(() => {
+                alert('Key: ' + key);
+            });
+        }
+        
+        function copyAllKeys() {
+            const allKeys = dailyKeys.join('\n');
+            navigator.clipboard.writeText(allKeys).then(() => {
+                alert('All keys copied!');
+            }).catch(() => {
+                alert('All Keys:\n' + allKeys);
+            });
+        }
+    </script>
+</body>
+</html>

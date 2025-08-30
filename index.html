@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHub | Educational Resource Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        :root {
+            /* Light theme variables */
+            --light-bg: #f8f9fa;
+            --light-card-bg: #ffffff;
+            --light-text: #333333;
+            --light-text-secondary: #666666;
+            --light-accent: #6c5ce7;
+            --light-primary: #4a3fcf;
+            --light-border: #e0e0e0;
+            --light-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --light-hover: #f0f2f5;
+            
+            /* Dark theme variables */
+            --dark-bg: #121212;
+            --dark-card-bg: #1e1e1e;
+            --dark-text: #e0e0e0;
+            --dark-text-secondary: #aaaaaa;
+            --dark-accent: #8a2be2;
+            --dark-primary: #00ccff;
+            --dark-border: #333333;
+            --dark-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --dark-hover: #2a2a2a;
+            
+            /* Initial theme setup */
+            --bg: var(--light-bg);
+            --card-bg: var(--light-card-bg);
+            --text: var(--light-text);
+            --text-secondary: var(--light-text-secondary);
+            --accent: var(--light-accent);
+            --primary: var(--light-primary);
+            --border: var(--light-border);
+            --shadow: var(--light-shadow);
+            --hover: var(--light-hover);
+        }
+
+        body.dark-mode {
+            --bg: var(--dark-bg);
+            --card-bg: var(--dark-card-bg);
+            --text: var(--dark-text);
+            --text-secondary: var(--dark-text-secondary);
+            --accent: var(--dark-accent);
+            --primary: var(--dark-primary);
+            --border: var(--dark-border);
+            --shadow: var(--dark-shadow);
+            --hover: var(--dark-hover);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-bottom: 60px;
+            padding-top: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Header Styles */
+        header {
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+
+
+        body.dark-mode header {
+            background: rgba(30, 30, 30, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: absolute;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 8px 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .theme-toggle:hover {
+            background: var(--hover);
+            transform: translateY(-2px);
+        }
+
+        .theme-icon {
+            font-size: 1rem;
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Image Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item.active {
+            opacity: 1;
+        }
+
+        .carousel-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            text-align: center;
+        }
+
+        .carousel-caption h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .carousel-caption p {
+            font-size: 0.9rem;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .carousel-btn.active {
+            background: var(--primary);
+        }
+
+        /* Card Grid Layout */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 30px 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-mode .card {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(108, 92, 231, 0.2);
+            border-color: var(--primary);
+        }
+
+        body.dark-mode .card:hover {
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.5rem;
+            background: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .card-content {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-align: center;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .card-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .card-link:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        .card-link:hover::before {
+            left: 100%;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 70%;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 1.5rem;
+            background: rgba(138, 43, 226, 0.1);
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .card-content {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .card-content p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .card-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-align: center;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .card-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .card-link:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        }
+
+        .card-link:hover::before {
+            left: 100%;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 70%;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            background: var(--card-bg);
+            margin-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        /* Quick Access Bar */
+        .quick-access {
+            backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(74, 63, 207, 0.1));
+            padding: 15px 0;
+            position: relative;
+            border-bottom: 1px solid rgba(108, 92, 231, 0.2);
+            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.1);
+        }
+
+        body.dark-mode .quick-access {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(0, 204, 255, 0.1));
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .access-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .access-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .access-category {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .access-title {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .access-title i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .access-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .access-link {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .access-link:hover {
+            background: rgba(108, 92, 231, 0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+            border-color: var(--primary);
+        }
+
+        .access-link:hover::before {
+            left: 100%;
+        }
+
+        body.dark-mode .access-link {
+            background: rgba(30, 30, 30, 0.4);
+            border: 1px solid rgba(138, 43, 226, 0.4);
+        }
+
+        body.dark-mode .access-link:hover {
+            background: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+        }
+
+        /* Timer Button Styles */
+        .timer-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Floating tools animation */
+        .study-tool-float {
+            animation: floatUpDown 3s ease-in-out infinite;
+        }
+        
+        @keyframes floatUpDown {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Mobile responsive for floating tools */
+        @media (max-width: 768px) {
+            #floatingStudyTools {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .study-tool-float {
+                width: 50px !important;
+                height: 50px !important;
+            }
+            
+            .study-tool-float span {
+                font-size: 1.5rem !important;
+            }
+            
+            #studyToolsMenu {
+                bottom: 75px !important;
+                right: 15px !important;
+                min-width: 300px !important;
+                max-width: calc(100vw - 30px) !important;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .carousel {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .carousel-caption h2 {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 10px 0;
+            }
+            
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            
+            .theme-toggle span {
+                display: none;
+            }
+            
+            .theme-toggle {
+                padding: 8px;
+            }
+            
+            .carousel {
+                height: 250px;
+            }
+            
+            .carousel-caption {
+                padding: 10px;
+                bottom: 10px;
+            }
+            
+            .carousel-caption h2 {
+                font-size: 1.1rem;
+                margin-bottom: 5px;
+            }
+            
+            .carousel-caption p {
+                font-size: 0.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+                padding-left: 10px;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .access-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .access-category {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .access-title {
+                font-size: 1rem;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Alert Banner -->
+    <div class="alert-banner">
+        <i class="fas fa-info-circle"></i> 
+        <strong>Important:</strong> If the first website doesn't work, please try the second website option!
+    </div>
+
+
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            <div class="logo-text">EduHub</div>
+        </a>
+        
+
+        
+        <div class="theme-toggle" id="themeToggle">
+            <i class="fas fa-sun theme-icon"></i>
+            <span id="themeText">Light</span>
+        </div>
+        
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <!-- Quick Access Bar -->
+    <section class="quick-access">
+        <div class="access-container">
+            <!-- Physics Wallah Section -->
+            <div class="access-row">
+                <div class="access-title">
+                    <i class="fas fa-atom"></i> Physics Wallah:
+                </div>
+                <div class="access-category">
+                    <a href="https://studyrays.cc" class="access-link">⚡ PW 1.0</a>
+                    <a href="https://edunova-pw.vercel.app/api/index.php" class="access-link">🚀 PW 2.0</a>
+                    <a href="https://studyratna.co/" class="access-link">💎 PW 3.0</a>
+                </div>
+            </div>
+            
+            <!-- Next Topper Section -->
+            <div class="access-row">
+                <div class="access-title">
+                    <i class="fas fa-chart-line"></i> Next Topper:
+                </div>
+                <div class="access-category">
+                    <a href="https://edu-vibe-nt.vercel.app/" class="access-link">🎯 NT 1.0</a>
+                    <a href="https://others.streamfiles.eu.org/nt/index.php" class="access-link">📈 NT 2.0</a>
+                    <a href="https://studyratna.co/" class="access-link">🏆 NT 3.0</a>
+                </div>
+            </div>
+            
+
+        </div>
+    </section>
+    <!-- Welcome Section -->
+    <section class="container">
+        <div style="text-align: center; padding: 40px 20px; background: linear-gradient(135deg, var(--accent), var(--primary)); border-radius: 25px; margin: 20px 0; color: white; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(108, 92, 231, 0.3);">
+            <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: float 6s ease-in-out infinite;"></div>
+            <h1 style="font-size: 2.8rem; margin-bottom: 15px; position: relative; z-index: 1;">👋 Welcome to EduHub!</h1>
+            <p style="font-size: 1.3rem; margin-bottom: 20px; position: relative; z-index: 1;">Your friendly learning companion for academic success</p>
+            <p style="font-size: 1.1rem; opacity: 0.9; position: relative; z-index: 1;">✨ Discover amazing resources • 🚀 Learn at your pace • 🎯 Achieve your goals</p>
+            <style>
+                @keyframes float {
+                    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+                    50% { transform: translate(-50%, -50%) rotate(180deg); }
+                }
+            </style>
+        </div>
+    </section>
+
+    <!-- Image Carousel -->
+    <div class="container">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" style="background-image: url('https://i.ytimg.com/vi/WC4oVE-uaj8/maxresdefault.jpg');">
+                    <div class="carousel-caption">
+                        <h2>🎓 Start Your Learning Journey</h2>
+                        <p>Join thousands of students achieving their dreams!</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://startupstorymedia.com/wp-content/uploads/2022/11/Physics_wallah-1.jpg');">
+                    <div class="carousel-caption">
+                        <h2>📚 Quality Education for Everyone</h2>
+                        <p>Learn from the best teachers in the country</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://lh3.googleusercontent.com/lhJ5YOJjAPNy7B5ExEnbP5O7D5Pq7OP5gfOSl_Rnu8NAYLluvM864MU1KyzMtCX_e4ggnVOp5Y1sYc7R8tatNiBXf2j77uF-8jGJ=h200');">
+                    <div class="carousel-caption">
+                        <h2>💡 Smart Learning Solutions</h2>
+                        <p>Interactive content that makes learning fun!</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://is2-ssl.mzstatic.com/image/thumb/PurpleSource115/v4/08/a6/4c/08a64c2d-7aec-d518-61c0-63a26ab25277/439f8e41-aade-4d25-9044-829bea72252b_04__U0028_1242_x_2208__U0029.png/750x750bb.jpeg');">
+                    <div class="carousel-caption">
+                        <h2>📱 Mobile Learning</h2>
+                        <p>Study anywhere with our mobile apps</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://dr80rrrj8r45p.cloudfront.net/wp-content/uploads/2021/11/TeraBox1024.png');">
+                    <div class="carousel-caption">
+                        <h2>☁️ Cloud Storage</h2>
+                        <p>1TB free storage for all your study materials</p>
+                    </div>
+                </div>
+                <div class="carousel-item" style="background-image: url('https://www.lifewire.com/thmb/_pBmBApdnUXbwdR09yRxSxrAUx0=/2024x1358/filters:no_upscale():max_bytes(150000):strip_icc()/how-to-use-dropbox-4691424-3-7c813274a752429c82bc221cf7fca44c.jpg');">
+                    <div class="carousel-caption">
+                        <h2>🔄 Sync Everywhere</h2>
+                        <p>Access your files from any device</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn active" data-index="0"></button>
+                <button class="carousel-btn" data-index="1"></button>
+                <button class="carousel-btn" data-index="2"></button>
+                <button class="carousel-btn" data-index="3"></button>
+                <button class="carousel-btn" data-index="4"></button>
+                <button class="carousel-btn" data-index="5"></button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Educational Platforms Section -->
+    <section class="container">
+        <h2 class="section-title">🎯 Your Learning Destinations</h2>
+        
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3 class="card-title">Physics Wallah</h3>
+                </div>
+                <div class="card-content">
+                    <p>🌟 India's most loved learning platform! Get ready for engaging video lectures, comprehensive study materials, and instant doubt clearing.</p>
+                    <p><strong>Available Versions:</strong></p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0;">
+                        <a href="https://edunova-pw.vercel.app/api/index.php" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">⚡ PW 1.0</a>
+                        <a href="https://studyrays.cc" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🚀 PW 2.0</a>
+                        <a href="https://studyratna.co/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">💎 PW 3.0</a>
+                    </div>
+                </div>
+                <a href="https://edunova-pw.vercel.app/api/index.php" class="card-link">🚀 Start Learning</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="card-title">Next Topper</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎯 Your ultimate exam preparation buddy! Master competitive exams with live classes, practice tests, and detailed performance insights.</p>
+                    <p><strong>Available Versions:</strong></p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0;">
+                        <a href="https://edu-vibe-nt.vercel.app/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🎯 NT 1.0</a>
+                        <a href="https://others.streamfiles.eu.org/nt/index.php" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">📈 NT 2.0</a>
+                        <a href="https://studyratna.co/" style="background: rgba(108, 92, 231, 0.1); color: var(--primary); padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 0.8rem;">🏆 NT 3.0</a>
+                    </div>
+                </div>
+                <a href="https://others.streamfiles.eu.org/nt/index.php" class="card-link">🎓 Join Classes</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Team Section -->
+    <section class="container">
+        <div style="text-align: center; margin: 30px 0; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 15px; backdrop-filter: blur(10px);">
+            <h3 style="margin: 0 0 15px 0; font-size: 1.4rem; font-weight: 700; color: var(--primary);">🚀 Join Our Team</h3>
+            <p style="margin: 0 0 20px 0; font-size: 1rem; opacity: 0.9; color: var(--text-secondary);">Want to be part of EduHub? Join our team and help transform education!</p>
+            <button onclick="joinTeam()" style="background: #28a745; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 25px rgba(40,167,69,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                📧 Join Team Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Tools & Storage Section -->
+    <section class="container">
+        <h2 class="section-title">🛠️ Your Digital Toolkit</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="card-title">Learn Vern</h3>
+                </div>
+                <div class="card-content">
+                    <p>🌍 Learn in your own language! Master programming, digital marketing, and business skills with courses designed for Indian learners.</p>
+                    <p><strong>Special perks:</strong> Hindi/regional language support, hands-on projects, industry certificates 🏆</p>
+                </div>
+                <a href="https://www.learnvern.com/r1/11bd32" class="card-link">💪 Build Skills</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3 class="card-title">Dropbox</h3>
+                </div>
+                <div class="card-content">
+                    <p>☁️ Keep all your study materials safe in the cloud! Access your notes, videos, and assignments from anywhere in the world.</p>
+                    <p><strong>Why you'll love it:</strong> Instant sync, easy sharing, team collaboration 🤝</p>
+                </div>
+                <a href="https://www.dropbox.com/" class="card-link">📁 Save Files</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 class="card-title">Terabox</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎉 Whopping 1TB of FREE storage! Perfect for your entire collection of lectures, ebooks, and study videos without worrying about space.</p>
+                    <p><strong>Amazing benefits:</strong> 1TB free space, supports huge files, lightning-fast uploads ⚡</p>
+                </div>
+                <a href="https://www.terabox.com/" class="card-link">🎁 Claim Free Space</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movies Section -->
+    <section class="container">
+        <h2 class="section-title">🎬 Movies & Entertainment Hub</h2>
+        <div style="margin-bottom: 20px;">
+            <!-- Search Bar -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="position: relative; display: inline-block; width: 100%; max-width: 600px;">
+                    <input type="text" id="movieSearch" placeholder="🔍 Search movies across FilmyFly, VegaMovies & FilmyZilla..." style="width: 100%; padding: 15px 130px 15px 50px; border: 2px solid var(--border); border-radius: 25px; font-size: 1rem; background: var(--card-bg); color: var(--text); box-shadow: var(--shadow); transition: all 0.3s ease;" onkeypress="if(event.key==='Enter') searchMovies()" oninput="showSuggestions()">
+                    <i class="fas fa-search" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                    <button onclick="searchMovies()" style="position: absolute; right: 70px; top: 50%; transform: translateY(-50%); background: var(--primary); color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">🚀 Search</button>
+                    <button onclick="clearSearch()" style="position: absolute; right: 25px; top: 50%; transform: translateY(-50%); background: #f44336; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 0.85rem;">✖</button>
+                </div>
+                <div id="searchSuggestions" style="display: none; position: absolute; z-index: 1000; background: var(--card-bg); border-radius: 15px; box-shadow: var(--shadow); margin-top: 5px; max-width: 600px; width: 100%;"></div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                <button onclick="showTrending()" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🔥 Trending</button>
+                <button onclick="showHistory()" style="background: linear-gradient(135deg, #4ECDC4, #44A08D); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">📚 History</button>
+                <button onclick="randomMovie()" style="background: linear-gradient(135deg, #A8EDEA, #FED6E3); color: #333; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🎲 Random</button>
+                <button onclick="showGenres()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🎭 Genres</button>
+            </div>
+            
+            <p style="text-align: center; margin: 0; font-size: 0.85rem; color: var(--text-secondary);">💡 Get direct download links with quality options from multiple platforms</p>
+        </div>
+        <div class="card-grid" id="movieGrid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="card-title">FilmyFly</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎭 Your ultimate destination for movies and entertainment! Enjoy the latest releases, classic films, and trending content all in one place.</p>
+                    <p><strong>Features:</strong> HD quality, latest movies, multiple genres, fast streaming 🚀</p>
+                </div>
+                <a href="https://filmyfly.xyz/" class="card-link">🎥 Watch Now</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="card-title">VegaMovies</h3>
+                </div>
+                <div class="card-content">
+                    <p>🌟 Premium movie streaming experience with extensive collection! From Bollywood blockbusters to Hollywood hits, everything you need.</p>
+                    <p><strong>Highlights:</strong> Multi-language support, HD downloads, regular updates 📱</p>
+                </div>
+                <a href="https://vegamovies.nagoya/" class="card-link">🍿 Explore Movies</a>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3 class="card-title">FilmyZilla</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎪 Premium movie collection with latest releases! Enjoy high-quality entertainment with fast downloads and streaming options.</p>
+                    <p><strong>Benefits:</strong> Latest movies, multiple formats, fast downloads 🎯</p>
+                </div>
+                <a href="https://filmyzilla1.com.ng/" class="card-link">🎬 Start Streaming</a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Features Section -->
+    <section class="container">
+        <h2 class="section-title">✨ Why Students Love EduHub</h2>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-lock-open"></i>
+                    </div>
+                    <h3 class="card-title">Free Access</h3>
+                </div>
+                <div class="card-content">
+                    <p>🎉 Everything is 100% FREE! No hidden charges, no surprise bills, no credit card needed. Just pure learning joy!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="card-title">Cross-Platform</h3>
+                </div>
+                <div class="card-content">
+                    <p>📱💻 Study anywhere, anytime! Switch between your phone, tablet, and laptop without missing a beat. Your progress follows you everywhere!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="card-title">Cloud Integration</h3>
+                </div>
+                <div class="card-content">
+                    <p>🔗 Everything connected! Your cloud storage works seamlessly with our platform. One-click access to all your study materials!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer style="background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; margin-top: 60px; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%23fff" stop-opacity=".1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><circle cx="10" cy="10" r="10" fill="url(%23a)"/><circle cx="90" cy="10" r="15" fill="url(%23a)"/></svg></div>
+        
+        <div class="container" style="position: relative; z-index: 1; padding: 50px 20px 30px;">
+            <!-- Main Footer Content -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; margin-bottom: 40px;">
+                
+                <!-- EduHub Brand Section -->
+                <div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+                        <i class="fas fa-graduation-cap" style="font-size: 2.5rem; color: rgba(255,255,255,0.9);"></i>
+                        <h2 style="font-size: 2rem; font-weight: 800; margin: 0;">EduHub</h2>
+                    </div>
+                    <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 20px; opacity: 0.9;">
+                        🌟 Empowering students worldwide with free, accessible, and quality education. Your journey to success starts here!
+                    </p>
+                    <div style="display: flex; gap: 15px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 50%; backdrop-filter: blur(10px);">
+                            <i class="fas fa-users" style="font-size: 1.2rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 1.1rem;">50,000+</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Happy Students</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 700;">🚀 Quick Access</h3>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <a href="https://edunova-pw.vercel.app/api/index.php" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-atom"></i> Physics Wallah
+                        </a>
+                        <a href="https://others.streamfiles.eu.org/nt/index.php" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-chart-line"></i> Next Topper
+                        </a>
+                        <a href="https://www.learnvern.com/r1/11bd32" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-laptop-code"></i> Learn Vern
+                        </a>
+                        <a href="https://www.dropbox.com/" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;" onmouseover="this.style.color='#fff'; this.style.transform='translateX(5px)'" onmouseout="this.style.color='rgba(255,255,255,0.9)'; this.style.transform='translateX(0)'">
+                            <i class="fas fa-cloud"></i> Cloud Storage
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Contact & Support -->
+                <div>
+                    <h3 style="font-size: 1.3rem; margin-bottom: 20px; font-weight: 700;">📞 Get in Touch</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <a href="mailto:santoshkumar9572hzb@gmail.com" style="color: rgba(255,255,255,0.9); text-decoration: none; display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <div style="font-weight: 600;">Email Support</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;">We're here to help!</div>
+                            </div>
+                        </a>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; text-align: center;">
+                                <i class="fas fa-shield-alt" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                                <div style="font-size: 0.8rem;">Secure & Safe</div>
+                            </div>
+                            <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; flex: 1; text-align: center;">
+                                <i class="fas fa-clock" style="font-size: 1.2rem; margin-bottom: 5px;"></i>
+                                <div style="font-size: 0.8rem;">24/7 Access</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Section -->
+            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 1.1rem; font-weight: 600;">🎆 Made with ❤️ for Students</div>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                        🚀 Always Free
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem;">
+                        🌱 Keep Growing
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <!-- Copyright -->
+            <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; opacity: 0.8;">
+                &copy; 2025 EduHub - Transforming Education, One Student at a Time ✨
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeText = document.getElementById('themeText');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+        const body = document.body;
+        
+        // Check for saved theme preference or respect OS preference
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            body.classList.add('dark-mode');
+            themeIcon.className = 'fas fa-moon theme-icon';
+            themeText.textContent = 'Dark';
+        } else {
+            body.classList.remove('dark-mode');
+            themeIcon.className = 'fas fa-sun theme-icon';
+            themeText.textContent = 'Light';
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-sun theme-icon';
+                themeText.textContent = 'Light';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-moon theme-icon';
+                themeText.textContent = 'Dark';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+        
+        // Image Carousel Functionality
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const carouselButtons = document.querySelectorAll('.carousel-btn');
+        let currentIndex = 0;
+        
+        function showSlide(index) {
+            // Hide all slides
+            carouselItems.forEach(item => item.classList.remove('active'));
+            carouselButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show the selected slide
+            carouselItems[index].classList.add('active');
+            carouselButtons[index].classList.add('active');
+            
+            currentIndex = index;
+        }
+        
+        // Add click events to carousel buttons
+        carouselButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto slide functionality
+        function nextSlide() {
+            let nextIndex = (currentIndex + 1) % carouselItems.length;
+            showSlide(nextIndex);
+        }
+        
+        // Auto-change carousel every 2 seconds
+        setInterval(nextSlide, 2000);
+        
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('#movieSearch') && !e.target.closest('#searchSuggestions')) {
+                document.getElementById('searchSuggestions').style.display = 'none';
+            }
+            
+            // Hide floating tools when clicking outside
+            if (!e.target.closest('#floatingStudyTools') && !e.target.closest('#studyToolsMenu')) {
+                document.getElementById('studyToolsMenu').style.display = 'none';
+            }
+        });
+        
+        // Floating study tools functionality
+        let floatingTimerInterval;
+        let floatingTimerSeconds = 1500;
+        let floatingTimerRunning = false;
+        
+        function toggleStudyMenu() {
+            const menu = document.getElementById('studyToolsMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function showQuickTimer() {
+            document.getElementById('toolContent').innerHTML = `
+                <h4 style="margin: 0 0 15px 0; color: #333; text-align: center;">⏰ Focus Timer</h4>
+                <div id="quickTimerDisplay" style="font-size: 2.5rem; text-align: center; font-weight: bold; color: #667eea; margin-bottom: 15px;">25:00</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <button onclick="startQuickTimer()" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">▶️ Start</button>
+                    <button onclick="pauseQuickTimer()" style="background: #FF9800; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">⏸️ Pause</button>
+                </div>
+                <button onclick="resetQuickTimer()" style="background: #f44336; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600;">🔄 Reset</button>
+            `;
+            updateQuickTimerDisplay();
+        }
+        
+        function showQuickNotes() {
+            document.getElementById('toolContent').innerHTML = `
+                <h4 style="margin: 0 0 15px 0; color: #333; text-align: center;">📝 Quick Notes</h4>
+                <textarea id="quickNoteText" placeholder="Write your quick note..." style="width: 100%; height: 120px; border: 1px solid #ddd; border-radius: 8px; padding: 10px; resize: none; margin-bottom: 10px;"></textarea>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button onclick="saveQuickNote()" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">💾 Save</button>
+                    <button onclick="clearQuickNote()" style="background: #f44336; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">🗑️ Clear</button>
+                </div>
+            `;
+        }
+        
+        function showQuickCalc() {
+            document.getElementById('toolContent').innerHTML = `
+                <h4 style="margin: 0 0 15px 0; color: #333; text-align: center;">🧮 Calculator</h4>
+                <input id="quickCalcDisplay" type="text" readonly style="width: 100%; padding: 12px; font-size: 1.3rem; text-align: right; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                    <button onclick="clearQuickCalc()" style="background: #f44336; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">C</button>
+                    <button onclick="appendQuickCalc('/')" style="background: #FF9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">÷</button>
+                    <button onclick="appendQuickCalc('*')" style="background: #FF9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">×</button>
+                    <button onclick="deleteQuickCalc()" style="background: #f44336; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">⌫</button>
+                    <button onclick="appendQuickCalc('7')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">7</button>
+                    <button onclick="appendQuickCalc('8')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">8</button>
+                    <button onclick="appendQuickCalc('9')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">9</button>
+                    <button onclick="appendQuickCalc('-')" style="background: #FF9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">-</button>
+                    <button onclick="appendQuickCalc('4')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">4</button>
+                    <button onclick="appendQuickCalc('5')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">5</button>
+                    <button onclick="appendQuickCalc('6')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">6</button>
+                    <button onclick="appendQuickCalc('+')" style="background: #FF9800; color: white; border: one; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">+</button>
+                    <button onclick="appendQuickCalc('1')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">1</button>
+                    <button onclick="appendQuickCalc('2')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">2</button>
+                    <button onclick="appendQuickCalc('3')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">3</button>
+                    <button onclick="calculateQuickResult()" style="background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; grid-row: span 2;">=</button>
+                    <button onclick="appendQuickCalc('0')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; grid-column: span 2;">0</button>
+                    <button onclick="appendQuickCalc('.')" style="background: #667eea; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600;">.</button>
+                </div>
+            `;
+        }
+        
+        function scrollToStudySection() {
+            const studySection = document.querySelector('h2[class="section-title"]');
+            if (studySection && studySection.textContent.includes('Study Tools')) {
+                studySection.scrollIntoView({ behavior: 'smooth' });
+            }
+            document.getElementById('studyToolsMenu').style.display = 'none';
+        }
+        
+        function updateQuickTimerDisplay() {
+            const minutes = Math.floor(floatingTimerSeconds / 60);
+            const seconds = floatingTimerSeconds % 60;
+            const display = document.getElementById('quickTimerDisplay');
+            if (display) {
+                display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+        
+        function startQuickTimer() {
+            if (!floatingTimerRunning) {
+                floatingTimerRunning = true;
+                floatingTimerInterval = setInterval(() => {
+                    floatingTimerSeconds--;
+                    updateQuickTimerDisplay();
+                    if (floatingTimerSeconds <= 0) {
+                        pauseQuickTimer();
+                        alert('⏰ Time\'s up! Great job studying!');
+                        floatingTimerSeconds = 1500;
+                        updateQuickTimerDisplay();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function pauseQuickTimer() {
+            floatingTimerRunning = false;
+            clearInterval(floatingTimerInterval);
+        }
+        
+        function resetQuickTimer() {
+            pauseQuickTimer();
+            floatingTimerSeconds = 1500;
+            updateQuickTimerDisplay();
+        }
+        
+        function saveQuickNote() {
+            const noteText = document.getElementById('quickNoteText').value;
+            if (noteText.trim()) {
+                const notes = JSON.parse(localStorage.getItem('quickNotes') || '[]');
+                notes.unshift({ text: noteText, date: new Date().toLocaleString() });
+                localStorage.setItem('quickNotes', JSON.stringify(notes));
+                alert('📝 Note saved!');
+                document.getElementById('quickNoteText').value = '';
+            }
+        }
+        
+        function clearQuickNote() {
+            document.getElementById('quickNoteText').value = '';
+        }
+        
+        function appendQuickCalc(value) {
+            document.getElementById('quickCalcDisplay').value += value;
+        }
+        
+        function clearQuickCalc() {
+            document.getElementById('quickCalcDisplay').value = '';
+        }
+        
+        function deleteQuickCalc() {
+            const display = document.getElementById('quickCalcDisplay');
+            display.value = display.value.slice(0, -1);
+        }
+        
+        function calculateQuickResult() {
+            try {
+                const result = eval(document.getElementById('quickCalcDisplay').value);
+                document.getElementById('quickCalcDisplay').value = result;
+            } catch (error) {
+                document.getElementById('quickCalcDisplay').value = 'Error';
+            }
+        }
+        
+        // Enhanced search functions
+        function clearSearch() {
+            const resultsContainer = document.getElementById('searchResults');
+            if (resultsContainer) {
+                resultsContainer.remove();
+            }
+            document.getElementById('movieGrid').style.display = 'grid';
+            document.getElementById('movieSearch').value = '';
+            document.getElementById('searchSuggestions').style.display = 'none';
+        }
+        
+        function showSuggestions() {
+            const input = document.getElementById('movieSearch').value.toLowerCase();
+            const suggestions = document.getElementById('searchSuggestions');
+            
+            if (input.length < 2) {
+                suggestions.style.display = 'none';
+                return;
+            }
+            
+            const movieSuggestions = [
+                'Avengers Endgame', 'Spider-Man No Way Home', 'The Batman', 'Top Gun Maverick',
+                'Black Panther', 'Inception', 'Interstellar', 'The Dark Knight', 'Joker',
+                'Dune', 'No Time to Die', 'Fast X', 'John Wick 4', 'Guardians of the Galaxy'
+            ];
+            
+            const filtered = movieSuggestions.filter(movie => 
+                movie.toLowerCase().includes(input)
+            ).slice(0, 5);
+            
+            if (filtered.length > 0) {
+                suggestions.innerHTML = filtered.map(movie => 
+                    `<div onclick="selectSuggestion('${movie}')" style="padding: 10px 15px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.2s ease;" onmouseover="this.style.background='var(--hover)'" onmouseout="this.style.background='transparent'">
+                        🎬 ${movie}
+                    </div>`
+                ).join('');
+                suggestions.style.display = 'block';
+            } else {
+                suggestions.style.display = 'none';
+            }
+        }
+        
+        function selectSuggestion(movie) {
+            document.getElementById('movieSearch').value = movie;
+            document.getElementById('searchSuggestions').style.display = 'none';
+            searchMovies();
+        }
+        
+        function showTrending() {
+            const trending = ['Spider-Man No Way Home', 'Avengers Endgame', 'The Batman', 'Top Gun Maverick', 'Dune'];
+            const randomTrending = trending[Math.floor(Math.random() * trending.length)];
+            document.getElementById('movieSearch').value = randomTrending;
+            searchMovies();
+        }
+        
+        function showHistory() {
+            if (searchHistory.length === 0) {
+                alert('No search history found!');
+                return;
+            }
+            
+            const historyHtml = `
+                <div style="background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: var(--shadow);">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-align: center;">📚 Search History</h3>
+                    ${searchHistory.map(term => 
+                        `<div onclick="document.getElementById('movieSearch').value='${term}'; searchMovies();" style="background: var(--hover); padding: 12px 15px; margin: 8px 0; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'">
+                            🔍 ${term}
+                        </div>`
+                    ).join('')}
+                    <button onclick="clearHistory()" style="background: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-top: 10px; width: 100%;">🗑️ Clear History</button>
+                </div>
+            `;
+            
+            showSearchResults(historyHtml, false);
+        }
+        
+        function clearHistory() {
+            searchHistory = [];
+            localStorage.removeItem('movieSearchHistory');
+            alert('Search history cleared!');
+            clearSearch();
+        }
+        
+        function randomMovie() {
+            const movies = ['Inception', 'Interstellar', 'The Matrix', 'Pulp Fiction', 'The Godfather', 'Shawshank Redemption', 'Fight Club', 'Goodfellas'];
+            const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+            document.getElementById('movieSearch').value = randomMovie;
+            searchMovies();
+        }
+        
+        function showGenres() {
+            const genres = {
+                'Action': ['John Wick', 'Fast X', 'Mission Impossible'],
+                'Sci-Fi': ['Dune', 'Blade Runner', 'Interstellar'],
+                'Comedy': ['Deadpool', 'The Hangover', 'Superbad'],
+                'Horror': ['The Conjuring', 'It', 'Hereditary']
+            };
+            
+            const genreHtml = `
+                <div style="background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: var(--shadow);">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-align: center;">🎭 Movie Genres</h3>
+                    ${Object.entries(genres).map(([genre, movies]) => 
+                        `<div style="margin-bottom: 15px;">
+                            <h4 style="color: var(--accent); margin-bottom: 8px;">${genre}</h4>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                ${movies.map(movie => 
+                                    `<button onclick="document.getElementById('movieSearch').value='${movie}'; searchMovies();" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 0.8rem;">${movie}</button>`
+                                ).join('')}
+                            </div>
+                        </div>`
+                    ).join('')}
+                </div>
+            `;
+            
+            showSearchResults(genreHtml, false);
+        }
+
+        // Enhanced movie search functionality
+        let searchHistory = JSON.parse(localStorage.getItem('movieSearchHistory')) || [];
+        
+        function searchMovies() {
+            const searchTerm = document.getElementById('movieSearch').value.trim();
+            if (!searchTerm) {
+                alert('Please enter a movie name to search!');
+                return;
+            }
+            
+            // Add to search history
+            addToHistory(searchTerm);
+            
+            showSearchResults('🔍 Searching across platforms...', true);
+            
+            const platforms = [
+                { name: 'FilmyFly', url: 'https://filmyfly.navy', searchUrl: `https://filmyfly.navy/site-1.html?to-search=${encodeURIComponent(searchTerm)}`, icon: '🎬', color: '#FF6B6B' },
+                { name: 'VegaMovies', url: 'https://vegamovies.nagoya', searchUrl: `https://vegamovies.nagoya/?s=${encodeURIComponent(searchTerm)}`, icon: '🎆', color: '#4ECDC4' },
+                { name: 'FilmyZilla', url: 'https://filmyzilla1.com.ng', searchUrl: `https://filmyzilla1.com.ng/?s=${encodeURIComponent(searchTerm)}`, icon: '🎭', color: '#667eea' }
+            ];
+            
+            displayPlatformResults(platforms, searchTerm);
+        }
+        
+        function addToHistory(searchTerm) {
+            if (!searchHistory.includes(searchTerm)) {
+                searchHistory.unshift(searchTerm);
+                if (searchHistory.length > 10) searchHistory.pop();
+                localStorage.setItem('movieSearchHistory', JSON.stringify(searchHistory));
+            }
+        }
+        
+        function displayPlatformResults(platforms, searchTerm) {
+            const resultsHtml = `
+                <div style="text-align: center; margin-bottom: 25px; background: linear-gradient(135deg, var(--primary), var(--accent)); color: white; padding: 20px; border-radius: 20px;">
+                    <h3 style="margin: 0 0 10px 0; font-size: 1.4rem;">🎬 Search Results for "${searchTerm}"</h3>
+                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Click on any platform below to search and download movies</p>
+                </div>
+                ${platforms.map((platform, index) => `
+                    <div class="platform-result" style="background: var(--card-bg); border-radius: 20px; padding: 25px; margin: 20px 0; box-shadow: var(--shadow); border: 2px solid ${platform.color}; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='var(--shadow)';">
+                        <div style="position: absolute; top: -50%; right: -50%; width: 100px; height: 100px; background: ${platform.color}; opacity: 0.1; border-radius: 50%; transform: rotate(45deg);"></div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: relative; z-index: 1;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="background: ${platform.color}; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">${platform.icon}</div>
+                                <div>
+                                    <h4 style="color: var(--text); margin: 0 0 5px 0; font-size: 1.4rem; font-weight: 700;">${platform.name}</h4>
+                                    <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem;">Search "${searchTerm}" on ${platform.name}</p>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <span style="background: ${platform.color}; color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 5px;">${index === 0 ? 'Top Priority' : `Priority #${index + 1}`}</span>
+                                <div style="font-size: 0.7rem; color: var(--text-secondary);">Recommended</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; position: relative; z-index: 1;">
+                            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); backdrop-filter: blur(10px); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.2);">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 10px;">
+                                    <div style="text-align: center; padding: 8px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; border: 1px solid rgba(76, 175, 80, 0.3);">
+                                        <div style="font-weight: 600; color: #4CAF50; font-size: 0.8rem;">480p</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">~500MB</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 8px; background: rgba(33, 150, 243, 0.1); border-radius: 8px; border: 1px solid rgba(33, 150, 243, 0.3);">
+                                        <div style="font-weight: 600; color: #2196F3; font-size: 0.8rem;">720p</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">~1.2GB</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 8px; background: rgba(156, 39, 176, 0.1); border-radius: 8px; border: 1px solid rgba(156, 39, 176, 0.3);">
+                                        <div style="font-weight: 600; color: #9C27B0; font-size: 0.8rem;">1080p</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">~2.5GB</div>
+                                    </div>
+                                    <div style="text-align: center; padding: 8px; background: rgba(255, 152, 0, 0.1); border-radius: 8px; border: 1px solid rgba(255, 152, 0, 0.3);">
+                                        <div style="font-weight: 600; color: #FF9800; font-size: 0.8rem;">4K</div>
+                                        <div style="font-size: 0.7rem; color: var(--text-secondary);">~8GB</div>
+                                    </div>
+                                </div>
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">📱 Mobile & Desktop compatible • 🚀 Fast downloads</p>
+                            </div>
+                            <a href="${platform.searchUrl}" target="_blank" style="background: linear-gradient(135deg, ${platform.color}, ${platform.color}dd); color: white; padding: 15px 25px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; white-space: nowrap; box-shadow: 0 8px 25px rgba(0,0,0,0.2); text-align: center;" onmouseover="this.style.transform='scale(1.1) translateY(-2px)'; this.style.boxShadow='0 15px 35px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='scale(1) translateY(0)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.2)';">
+                                🚀 Search & Download
+                            </a>
+                        </div>
+                    </div>
+                `).join('')}
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 20px; margin-top: 25px; text-align: center; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: float 6s ease-in-out infinite;"></div>
+                    <h4 style="margin: 0 0 15px 0; position: relative; z-index: 1;">💡 Pro Tips for Better Results</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; position: relative; z-index: 1;">
+                        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                            <strong>🎯 Use exact movie names</strong><br>
+                            <small style="opacity: 0.9;">"Avengers Endgame" works better than "Avengers"</small>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                            <strong>📅 Include release year</strong><br>
+                            <small style="opacity: 0.9;">"Batman 2022" for specific versions</small>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                            <strong>🔄 Try all platforms</strong><br>
+                            <small style="opacity: 0.9;">Different sites may have different qualities</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            showSearchResults(resultsHtml, false);
+        }
+        
+        function showSearchResults(content, isLoading) {
+            let resultsContainer = document.getElementById('searchResults');
+            if (!resultsContainer) {
+                resultsContainer = document.createElement('div');
+                resultsContainer.id = 'searchResults';
+                resultsContainer.style.cssText = 'margin-top: 20px; padding: 20px; background: var(--card-bg); border-radius: 15px; box-shadow: var(--shadow);';
+                document.getElementById('movieGrid').parentNode.insertBefore(resultsContainer, document.getElementById('movieGrid'));
+            }
+            
+            if (isLoading) {
+                resultsContainer.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--primary); font-size: 1.1rem;">${content}</div>`;
+                setTimeout(() => {
+                    if (resultsContainer.innerHTML.includes('Searching')) {
+                        resultsContainer.innerHTML = content;
+                    }
+                }, 1500);
+            } else {
+                resultsContainer.innerHTML = content;
+            }
+            
+            document.getElementById('movieGrid').style.display = 'none';
+        }
+        
+        // Add animation to cards on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => {
+                card.style.opacity = "0";
+                card.style.transform = "translateY(20px)";
+                card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                observer.observe(card);
+            });
+        });
+        
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const quickAccess = document.querySelector('.quick-access');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            quickAccess.style.display = quickAccess.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                quickAccess.style.display = 'block';
+            }
+        });
+        
+        // Real-time clock functionality
+        function updateClock() {
+            const now = new Date();
+            
+            // Format time
+            const timeOptions = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            };
+            const timeString = now.toLocaleTimeString('en-US', timeOptions);
+            
+            // Format date
+            const dateOptions = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            const dateString = now.toLocaleDateString('en-US', dateString);
+            
+            // Update DOM elements
+            document.getElementById('realTimeClock').textContent = timeString;
+            document.getElementById('currentDate').textContent = dateString;
+        }
+        
+        // Study Timer functionality
+        let timerInterval;
+        let timeLeft = 25 * 60;
+        let isRunning = false;
+        let totalTime = 25 * 60;
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update progress bar
+            const progress = ((totalTime - timeLeft) / totalTime * 100);
+            const progressBar = document.getElementById('timerProgress');
+            if (progressBar) {
+                progressBar.style.width = progress + '%';
+            }
+            
+            // Update status
+            const status = document.getElementById('timerStatus');
+            if (isRunning) {
+                status.textContent = `💪 Focusing... ${Math.round(progress)}% complete`;
+            } else if (timeLeft === totalTime) {
+                status.textContent = 'Ready to focus 🎯';
+            } else {
+                status.textContent = '⏸️ Session paused';
+            }
+        }
+        
+        // Timer preset change
+        document.getElementById('timerPreset').addEventListener('change', (e) => {
+            if (!isRunning) {
+                timeLeft = totalTime = parseInt(e.target.value) * 60;
+                updateTimerDisplay();
+            }
+        });
+        
+        // Custom timer
+        document.getElementById('customTimer').addEventListener('click', () => {
+            if (!isRunning) {
+                const minutes = prompt('⏰ Enter minutes (1-120):');
+                if (minutes && minutes > 0 && minutes <= 120) {
+                    timeLeft = totalTime = parseInt(minutes) * 60;
+                    updateTimerDisplay();
+                }
+            }
+        });
+        
+        document.getElementById('startTimer').addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isRunning = false;
+                        document.getElementById('timerStatus').textContent = '🎉 Session complete!';
+                        alert('🎉 Study session complete! Time for a break!');
+                        timeLeft = totalTime;
+                        updateTimerDisplay();
+                    }
+                }, 1000);
+            }
+        });
+        
+        document.getElementById('pauseTimer').addEventListener('click', () => {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                updateTimerDisplay();
+            }
+        });
+        
+        document.getElementById('resetTimer').addEventListener('click', () => {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeLeft = totalTime;
+            updateTimerDisplay();
+        });
+        
+        // Progress tracking
+        function updateProgress() {
+            const progress = Math.min(100, (Date.now() % 100000) / 1000);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+        }
+        
+        // Enhanced Notes functionality
+        let studyNotes = JSON.parse(localStorage.getItem('studyNotes')) || [];
+        
+        function saveStudyNotes() {
+            localStorage.setItem('studyNotes', JSON.stringify(studyNotes));
+        }
+        
+        function displayNotes(notesToShow = studyNotes) {
+            const display = document.getElementById('notesDisplay');
+            if (notesToShow.length === 0) {
+                display.innerHTML = '<div style="text-align: center; color: #666;">No notes found</div>';
+            } else {
+                display.innerHTML = notesToShow.map((note, index) => 
+                    `<div style="border: 1px solid #ddd; padding: 8px; margin: 5px 0; border-radius: 5px; background: #f9f9f9;">
+                        <div style="font-weight: bold; color: var(--primary);">📚 ${note.subject} - ${note.title}</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">${note.content}</div>
+                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">${note.date}</div>
+                        <button onclick="deleteNote(${index})" style="background: #ff4757; color: white; border: none; padding: 2px 8px; border-radius: 3px; font-size: 0.7rem; margin-top: 5px;">🗑️ Delete</button>
+                    </div>`
+                ).join('');
+            }
+            display.style.display = 'block';
+        }
+        
+        function deleteNote(index) {
+            if (confirm('Delete this note?')) {
+                studyNotes.splice(index, 1);
+                saveStudyNotes();
+                displayNotes();
+            }
+        }
+        
+        document.getElementById('saveNote').addEventListener('click', () => {
+            const subject = document.getElementById('noteSubject').value.trim();
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('quickNotes').value.trim();
+            
+            if (subject && title && content) {
+                const note = {
+                    subject,
+                    title,
+                    content,
+                    date: new Date().toLocaleDateString()
+                };
+                studyNotes.unshift(note);
+                saveStudyNotes();
+                
+                // Clear form
+                document.getElementById('noteSubject').value = '';
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('quickNotes').value = '';
+                
+                alert('📝 Note saved successfully!');
+            } else {
+                alert('Please fill in all fields!');
+            }
+        });
+        
+        document.getElementById('viewNotes').addEventListener('click', () => {
+            displayNotes();
+        });
+        
+        document.getElementById('searchNotes').addEventListener('click', () => {
+            const searchTerm = prompt('🔍 Search notes (subject, title, or content):');
+            if (searchTerm) {
+                const filtered = studyNotes.filter(note => 
+                    note.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    note.content.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                displayNotes(filtered);
+            }
+        });
+        
+        // Study Calendar functionality
+        let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || [
+            {subject: 'Math', time: '2:00 PM', emoji: '📚'},
+            {subject: 'Physics', time: '4:00 PM', emoji: '🧪'},
+            {subject: 'English', time: '6:00 PM', emoji: '📖'}
+        ];
+        
+        function updateCalendarDisplay() {
+            const container = document.getElementById('calendarEvents');
+            if (calendarEvents.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; font-style: italic; padding: 20px;">📅 No events scheduled</div>';
+            } else {
+                container.innerHTML = calendarEvents.map((event, index) => 
+                    `<div style="background: white; padding: 12px; margin: 8px 0; border-radius: 10px; border-left: 4px solid var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateX(5px)'" onmouseout="this.style.transform='translateX(0)'" data-index="${index}">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 1.2rem;">${event.emoji}</span>
+                            <div>
+                                <div style="font-weight: 600; color: var(--text);">${event.subject}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">⏰ ${event.time}</div>
+                            </div>
+                        </div>
+                        <div style="width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 2s infinite;"></div>
+                    </div>`
+                ).join('');
+            }
+            
+            // Update current date
+            const dateElement = document.getElementById('currentDate');
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+        
+        function saveCalendarEvents() {
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('addEvent').addEventListener('click', () => {
+                const subject = prompt('📚 Enter subject:');
+                const time = prompt('⏰ Enter time (e.g., 2:00 PM):');
+                const emoji = prompt('🎆 Enter emoji (optional):') || '📚';
+                
+                if (subject && time) {
+                    calendarEvents.push({subject, time, emoji});
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            });
+        });
+        
+        document.getElementById('editEvent').addEventListener('click', () => {
+            const index = prompt(`✏️ Enter event number to edit (1-${calendarEvents.length}):`);
+            if (index && index > 0 && index <= calendarEvents.length) {
+                const event = calendarEvents[index - 1];
+                const subject = prompt('📚 Edit subject:', event.subject);
+                const time = prompt('⏰ Edit time:', event.time);
+                const emoji = prompt('🎆 Edit emoji:', event.emoji);
+                
+                if (subject && time) {
+                    calendarEvents[index - 1] = {subject, time, emoji: emoji || '📚'};
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            }
+        });
+        
+        document.getElementById('deleteEvent').addEventListener('click', () => {
+            const index = prompt(`🗑️ Enter event number to delete (1-${calendarEvents.length}):`);
+            if (index && index > 0 && index <= calendarEvents.length) {
+                if (confirm(`Delete "${calendarEvents[index - 1].subject}"?`)) {
+                    calendarEvents.splice(index - 1, 1);
+                    updateCalendarDisplay();
+                    saveCalendarEvents();
+                }
+            }
+        });
+        
+        // Initialize calendar display
+        updateCalendarDisplay();
+        
+        // Update clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+        setInterval(updateProgress, 5000);
+        
+
+    </script>
+<!-- Combined Login Popup -->
+<div id="loginPopup" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 10001;
+">
+  <div style="
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+  ">
+    <!-- Telegram Popup at Top -->
+    <div style="
+      background: #23272f;
+      color: #fff;
+      padding: 25px;
+      border-radius: 15px 15px 0 0;
+      text-align: center;
+    ">
+      <h2>🔐 Login Required</h2>
+      <p style="margin: 15px 0;">If you want username and password then join telegram channel</p>
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <a href="https://t.me/+c-d8q-qp1kM0OGY1" target="_blank" style="
+          background: #00b4d8;
+          color: #fff;
+          padding: 8px 15px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 12px;
+        ">Main Channel</a>
+        <a href="https://t.me/eduhub_all" target="_blank" style="
+          background: #28a745;
+          color: #fff;
+          padding: 8px 15px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 12px;
+        ">Discussion Channel</a>
+      </div>
+    </div>
+    
+    <!-- Login Form at Bottom -->
+    <div style="
+      background: white;
+      padding: 30px;
+      border-radius: 0 0 15px 15px;
+    ">
+      <h3 style="text-align: center; color: #667eea; margin-bottom: 20px;">🎓 EduHub Login</h3>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 500;">User name:</label>
+        <input type="text" id="loginUsername" placeholder="Enter username" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') document.getElementById('loginPassword').focus()">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 5px; color: #333; font-weight: 500;">Password:</label>
+        <input type="password" id="loginPassword" placeholder="Enter password" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;" onkeypress="if(event.key==='Enter') doLogin()">
+      </div>
+      <button onclick="doLogin()" style="width: 100%; padding: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Telegram Channel Popup -->
+<div id="mainChannelPopup" style="
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: #23272f;
+  color: #fff;
+  padding: 28px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+  z-index: 9999;
+  text-align: center;
+  max-width: 390px;
+  font-family: Arial, sans-serif;
+">
+  <h2 style="margin-top:0;">Welcome to EduHub!</h2>
+  <p style="margin-bottom: 18px;">
+    Discover batches and start learning for free. For updates, join our <b>Telegram channel</b> named <span style="color:#00b4d8;">EduHub</span>.<br> Click below to get latest notifications:
+    <br>👇👇
+  </p>
+  <a href="https://t.me/+c-d8q-qp1kM0OGY1" target="_blank"
+     style="background:#00b4d8;color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:1.08em;display:inline-block;">
+    Join Telegram
+  </a>
+  <br><br>
+  <button onclick="closeMainPopup()" style="background:#34384a;color:#fff;padding:7px 16px;border-radius:6px;border:none;cursor:pointer;">
+    Close
+  </button>
+</div>
+
+<!-- Floating Access Key -->
+<div id="floatingAccessKey" style="
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  z-index: 10000;
+">
+  <div class="access-key-float" onclick="window.open('access-keys.html', '_blank', 'width=600,height=500');" style="
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(255,215,0,0.4);
+    transition: all 0.3s ease;
+    animation: floatUpDown 3s ease-in-out infinite;
+  " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 30px rgba(255,215,0,0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(255,215,0,0.4)';">
+    <span style="font-size: 1.5rem;">🔑</span>
+  </div>
+</div>
+
+<!-- Floating Study Tools -->
+<div id="floatingStudyTools" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10000;
+">
+  <div class="study-tool-float" onclick="toggleStudyMenu()" style="
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+    animation: floatUpDown 3s ease-in-out infinite;
+  " onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 10px 35px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 6px 25px rgba(0,0,0,0.3)';">
+    <span style="font-size: 1.8rem;">🎯</span>
+  </div>
+</div>
+
+<!-- Study Tools Menu -->
+<div id="studyToolsMenu" style="
+  display: none;
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  z-index: 10001;
+  min-width: 320px;
+">
+  <h3 style="margin: 0 0 20px 0; color: #333; text-align: center; font-size: 1.3rem;">🎯 Study Tools Hub</h3>
+  
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;">
+    <button onclick="showQuickTimer()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      ⏰ Timer
+    </button>
+    <button onclick="showQuickNotes()" style="background: linear-gradient(135deg, #4ECDC4, #44A08D); color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      📝 Notes
+    </button>
+    <button onclick="showQuickCalc()" style="background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      🧮 Calculator
+    </button>
+    <button onclick="scrollToStudySection()" style="background: linear-gradient(135deg, #A8EDEA, #FED6E3); color: #333; border: none; padding: 15px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: transform 0.2s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+      🎯 Study Tools
+    </button>
+  </div>
+  
+  <div id="toolContent" style="min-height: 200px; background: rgba(255,255,255,0.5); border-radius: 12px; padding: 15px;">
+    <div style="text-align: center; color: #666; padding: 60px 20px;">
+      🚀 Select a tool above to get started!
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Discussion Telegram Channel Popup -->
+<div id="discussionChannelPopup" style="
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: #23272f;
+  color: #fff;
+  padding: 28px 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+  z-index: 9999;
+  text-align: center;
+  max-width: 390px;
+  font-family: Arial, sans-serif;
+">
+  <h2 style="margin-top:0;">Join EduHub Discussion!</h2>
+  <p style="margin-bottom: 18px;">
+    Connect with fellow learners and participate in discussions.<br>
+    Join our Telegram discussion channel to stay active and updated.
+    <br>👇👇
+  </p>
+  <a href="https://t.me/eduhub_all" target="_blank"
+     style="background:#00b4d8;color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:1.08em;display:inline-block;">
+    Join Discussion Channel
+  </a>
+  <br><br>
+  <button onclick="closeDiscussionPopup()" style="background:#34384a;color:#fff;padding:7px 16px;border-radius:6px;border:none;cursor:pointer;">
+    Close
+  </button>
+</div>
+
+<!-- Important Notification Popup -->
+<div id="importantNotificationPopup" style="
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 9999;
+">
+  <div style="
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    background: linear-gradient(135deg, #ff6b6b, #ffa500);
+    color: #fff;
+    padding: 28px 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+    text-align: center;
+    max-width: 390px;
+    font-family: Arial, sans-serif;
+  ">
+    <h2 style="margin-top:0;">⚠️ Important Notice</h2>
+    <p style="margin-bottom: 0;">
+      If any Telegram channel join popup appears inside <strong>Physics Wallah</strong> and <strong>Next Topper</strong> platforms, please ignore it.
+    </p>
+  </div>
+</div>
+
+<script>
+  // API Key injection for PW and NT platforms
+  (function() {
+    const currentHost = window.location.hostname;
+    const apiKeys = {
+      'edunova-pw.vercel.app': 'PW_API_KEY_2024_EDUHUB_MAIN',
+      'studyrays.cc': 'PW_API_KEY_2024_STUDYRAYS_PREMIUM', 
+      'studyratna.co': 'PW_API_KEY_2024_RATNA_ULTIMATE',
+      'edu-vibe-nt.vercel.app': 'NT_API_KEY_2024_EDUVIBE_PRO',
+      'others.streamfiles.eu.org': 'NT_API_KEY_2024_STREAM_PREMIUM'
+    };
+    
+    const matchedSite = Object.keys(apiKeys).find(site => currentHost.includes(site));
+    if (matchedSite) {
+      localStorage.setItem('platform_api_key', apiKeys[matchedSite]);
+      localStorage.setItem('platform_access_token', btoa(apiKeys[matchedSite] + '_' + Date.now()));
+      sessionStorage.setItem('auth_token', apiKeys[matchedSite]);
+      window.API_KEY = apiKeys[matchedSite];
+      window.PLATFORM_TOKEN = btoa(matchedSite + '_authenticated');
+    }
+  })();
+  
+  // Show login popup first
+  window.onload = function() {
+    setTimeout(function() {
+      document.getElementById('loginPopup').style.display = 'block';
+    }, 500);
+    
+    // Initialize floating timer display
+    if (typeof updateQuickTimerDisplay === 'function') {
+      updateQuickTimerDisplay();
+    }
+  };
+
+  // Close main popup
+  function closeMainPopup() {
+    document.getElementById('mainChannelPopup').style.display = 'none';
+  }
+
+  // Close discussion popup
+  function closeDiscussionPopup() {
+    document.getElementById('discussionChannelPopup').style.display = 'none';
+    setTimeout(function() {
+      document.getElementById('importantNotificationPopup').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      setTimeout(function() {
+        document.getElementById('importantNotificationPopup').style.display = 'none';
+        document.body.style.overflow = 'auto';
+      }, 5000);
+    }, 300);
+  }
+
+
+  function doLogin() {
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    if (username === 'Admin' && password === 'EduHub') {
+      document.getElementById('loginPopup').style.display = 'none';
+      showSuccessAndNotice();
+    } else {
+      alert('Invalid credentials!');
+    }
+  }
+
+  function showSuccessAndNotice() {
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10003; display: flex; align-items: center; justify-content: center;';
+    
+    overlay.innerHTML = `
+      <div style="background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <div style="background: #28a745; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+          <h3 style="margin: 0; font-size: 18px;">✅ Successfully Logged In!</h3>
+          <p style="margin: 10px 0 0 0; font-size: 14px;">Welcome to EduHub!</p>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, #ff6b6b, #ffa500); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+          <h4 style="margin: 0 0 10px 0; font-size: 16px;">⚠️ Important Notice</h4>
+          <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+            If any <span style="background: #dc143c; color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Telegram</span> channel join <span style="background: #ff4500; color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">popup</span> appears <span style="background: #ff6347; color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">inside</span> <span style="background: #ff1493; color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Physics Wallah</span> and <span style="background: #ff69b4; color: white; padding: 3px 8px; border-radius: 6px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Next Topper</span> platforms, <span style="background: #dc143c; color: white; padding: 4px 10px; border-radius: 8px; font-weight: bold; box-shadow: 0 3px 6px rgba(0,0,0,0.4); animation: pulse 1.5s infinite; text-transform: uppercase;">please ignore</span> it.
+          </p>
+          <style>
+            @keyframes pulse {
+              0% { transform: scale(1); box-shadow: 0 3px 6px rgba(0,0,0,0.4); }
+              50% { transform: scale(1.1); box-shadow: 0 5px 15px rgba(220,20,60,0.6); }
+              100% { transform: scale(1); box-shadow: 0 3px 6px rgba(0,0,0,0.4); }
+            }
+          </style>
+        </div>
+        
+
+      </div>
+    `;
+    
+    document.body.style.overflow = 'hidden';
+    document.body.appendChild(overlay);
+    
+    // Auto close after 4 seconds
+    setTimeout(function() {
+      if (overlay.parentElement) {
+        overlay.remove();
+        document.body.style.overflow = 'auto';
+      }
+    }, 4000);
+  }
+
+  function joinTeam() {
+    const message = `Dear EduHub Team,\n\nI am interested in joining your team.\n\nPlease find my details below:\n\nName: [Your Name]\nFull Name: [Your Full Name]\nEmail: [Your Email]\nRole: [Developer/Designer/Content Creator/Marketing/Tester/Other]\nPhone: [Your Phone Number]\nExperience: [Your Experience]\nWhy you want to join: [Your Reason]\n\nThank you for considering my application.\n\nBest regards,\n[Your Name]`;
+    
+    const mailtoLink = `mailto:santoshkumar9572hzb@gmail.com?subject=EduHub Team Join Request&body=${encodeURIComponent(message)}`;
+    window.open(mailtoLink, '_blank');
+  }
+</script>
+</body>
+</html>
